@@ -1,75 +1,96 @@
-# Nuxt Minimal Starter
+# Property Manager
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+A modern property management application built with Nuxt 3 and Vue.js. This app streamlines property listings, tenant management, maintenance requests, and more for landlords, property managers, and tenants.
 
-## Setup
+## Features
 
-Make sure to install dependencies:
+- Property listing and details view
+- Tenant management and application tracking
+- Maintenance request submission and tracking
+- Comment sections for communication
+- Dashboard views for managers and tenants
+- User authentication (login/register)
+- Responsive UI with reusable components
+
+## Tech Stack
+
+- [Nuxt 3](https://nuxt.com/) (Vue 3 framework)
+- TypeScript
+- Composition API
+- CSS (custom styles in `/assets/css/main.css`)
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js (v16+ recommended)
+- npm, yarn, pnpm, or bun
+
+### Installation
+
+Clone the repository and install dependencies:
 
 ```bash
-# npm
+# Clone the repo
+https://github.com/your-username/property-manager.git
+cd property-manager
+
+# Install dependencies (choose one)
 npm install
-
-# pnpm
-pnpm install
-
-# yarn
 yarn install
-
-# bun
+pnpm install
 bun install
 ```
 
-## Development Server
+### Development
 
-Start the development server on `http://localhost:3000`:
+Start the development server at [http://localhost:3000](http://localhost:3000):
 
 ```bash
-# npm
 npm run dev
-
-# pnpm
-pnpm dev
-
-# yarn
 yarn dev
-
-# bun
+pnpm dev
 bun run dev
 ```
 
-## Production
+### Production
 
-Build the application for production:
+Build for production:
 
 ```bash
-# npm
 npm run build
-
-# pnpm
-pnpm build
-
-# yarn
 yarn build
-
-# bun
+pnpm build
 bun run build
 ```
 
-Locally preview production build:
+Preview the production build locally:
 
 ```bash
-# npm
 npm run preview
-
-# pnpm
-pnpm preview
-
-# yarn
 yarn preview
-
-# bun
+pnpm preview
 bun run preview
 ```
 
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+## Project Structure
+
+- `pages/` — Main application pages (dashboard, properties, tenants, etc.)
+- `components/` — Reusable Vue components (modals, cards, UI elements)
+- `assets/css/` — Global styles
+- `data/` — Mock data for development
+- `layouts/` — Application layouts
+- `middleware/` — Route middleware (e.g., authentication)
+- `nuxt.config.ts` — Nuxt configuration
+
+## Contributing
+
+Contributions are welcome! Please fork the repo and submit a pull request. For major changes, open an issue first to discuss what you would like to change.
+
+## License
+
+[MIT](LICENSE)
+
+---
+
+For more details, see the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction).
