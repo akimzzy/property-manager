@@ -8,11 +8,11 @@
       </div>
 
       <div
-        class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-2xl sm:w-full"
+        class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-2xl sm:w-full relative z-20"
       >
         <form @submit.prevent="handleSubmit">
           <div
-            class="bg-white sticky top-0 z-10 px-4 pt-5 pb-4 sm:p-6 sm:pb-4 border-b border-gray-200"
+            class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4 border-b border-gray-200"
           >
             <h2 class="text-2xl font-bold text-gray-900">
               {{ property ? "Edit Property" : "Create Property" }}
@@ -78,38 +78,117 @@
               />
             </div>
 
-            <div class="grid grid-cols-2 gap-4">
-              <div class="mb-4">
+            <div class="mb-4 grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div>
                 <label
-                  for="city"
-                  class="block text-sm font-medium text-gray-700"
-                  >City</label
+                  for="rooms"
+                  class="block text-sm font-medium text-gray-700 flex items-center gap-1"
                 >
+                  <svg
+                    class="inline h-4 w-4 text-indigo-500 mr-1"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M3 21V10a1 1 0 011-1h16a1 1 0 011 1v11M3 21h18M3 21v-2a2 2 0 012-2h14a2 2 0 012 2v2"
+                    />
+                  </svg>
+                  Rooms
+                </label>
                 <input
-                  type="text"
-                  id="city"
-                  v-model="form.city"
-                  required
+                  type="number"
+                  id="rooms"
+                  v-model.number="form.rooms"
+                  min="0"
                   class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                 />
               </div>
-
-              <div class="mb-4">
+              <div>
                 <label
-                  for="state"
-                  class="block text-sm font-medium text-gray-700"
-                  >State</label
+                  for="bathrooms"
+                  class="block text-sm font-medium text-gray-700 flex items-center gap-1"
                 >
+                  <svg
+                    class="inline h-4 w-4 text-indigo-500 mr-1"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M9 21V7a3 3 0 016 0v14M5 21h14"
+                    />
+                  </svg>
+                  Bathrooms
+                </label>
                 <input
-                  type="text"
-                  id="state"
-                  v-model="form.state"
-                  required
+                  type="number"
+                  id="bathrooms"
+                  v-model.number="form.bathrooms"
+                  min="0"
+                  class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                />
+              </div>
+              <div>
+                <label
+                  for="toilets"
+                  class="block text-sm font-medium text-gray-700 flex items-center gap-1"
+                >
+                  <svg
+                    class="inline h-4 w-4 text-indigo-500 mr-1"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M9 17v-2a2 2 0 012-2h2a2 2 0 012 2v2m-6 0h6m-6 0v2a2 2 0 002 2h2a2 2 0 002-2v-2"
+                    />
+                  </svg>
+                  Toilets
+                </label>
+                <input
+                  type="number"
+                  id="toilets"
+                  v-model.number="form.toilets"
+                  min="0"
                   class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                 />
               </div>
             </div>
+            <div class="mb-4">
+              <label for="city" class="block text-sm font-medium text-gray-700"
+                >City</label
+              >
+              <input
+                type="text"
+                id="city"
+                v-model="form.city"
+                required
+                class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              />
+            </div>
 
+            <div class="mb-4">
+              <label for="state" class="block text-sm font-medium text-gray-700"
+                >State</label
+              >
+              <input
+                type="text"
+                id="state"
+                v-model="form.state"
+                required
+                class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              />
+            </div>
             <div class="mb-4">
               <label
                 for="zipCode"
@@ -279,6 +358,9 @@ const form = ref({
   city: "",
   state: "",
   zipCode: "",
+  rooms: props.property?.rooms ?? 1,
+  bathrooms: props.property?.bathrooms ?? 1,
+  toilets: props.property?.toilets ?? 1,
 });
 
 watch(
@@ -304,6 +386,9 @@ function resetForm() {
     city: "",
     state: "",
     zipCode: "",
+    rooms: props.property?.rooms ?? 1,
+    bathrooms: props.property?.bathrooms ?? 1,
+    toilets: props.property?.toilets ?? 1,
   };
 }
 

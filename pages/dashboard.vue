@@ -1,15 +1,13 @@
 <template>
-  <div class="min-h-screen bg-gray-100">
-    <AppHeader />
-
-    <div class="py-10">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+  <div>
+    <div>
+      <div class="">
         <h1 class="text-3xl font-bold leading-tight text-gray-900">
           Dashboard
         </h1>
       </div>
       <main>
-        <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+        <div class="">
           <div class="px-4 py-6 sm:px-0">
             <!-- Manager View -->
             <ManagerOverview

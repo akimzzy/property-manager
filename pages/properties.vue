@@ -1,53 +1,49 @@
 <template>
-  <div class="min-h-screen bg-gray-100">
-    <AppHeader />
-
-    <div class="py-10">
-      <header>
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <BackButton class="mb-4" />
-          <div class="flex justify-between items-center">
-            <h1 class="text-3xl font-bold leading-tight text-gray-900">
-              {{ isLandlord ? "Manage Properties" : "Available Properties" }}
-            </h1>
-            <div class="flex items-center space-x-4">
-              <button
-                v-if="isLandlord"
-                @click="openPropertyModal?.(null)"
-                class="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-              >
-                Add Property
-              </button>
-            </div>
+  <div class="">
+    <header>
+      <div class="">
+        <BackButton class="mb-4" />
+        <div class="flex justify-between items-center">
+          <h1 class="text-3xl font-bold leading-tight text-gray-900">
+            {{ isLandlord ? "Manage Properties" : "Available Properties" }}
+          </h1>
+          <div class="flex items-center space-x-4">
+            <button
+              v-if="isLandlord"
+              @click="openPropertyModal?.(null)"
+              class="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            >
+              Add Property
+            </button>
           </div>
         </div>
-      </header>
+      </div>
+    </header>
 
-      <main>
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-          <!-- Filter Tabs -->
-          <TabGroup
-            v-model="activeTab"
-            :tabs="tabs"
-            aria-label="Property filters"
-            class="mt-4"
+    <main>
+      <div class="mt-5">
+        <!-- Filter Tabs -->
+        <TabGroup
+          v-model="activeTab"
+          :tabs="tabs"
+          aria-label="Property filters"
+          class="mt-4"
+        />
+
+        <!-- Property Grid -->
+        <div
+          class="px-4 py-6 sm:px-0 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
+        >
+          <PropertyCard
+            v-for="property in filteredProperties"
+            :key="property.id"
+            :property="property"
+            :is-landlord="isLandlord"
+            @edit="editProperty"
           />
-
-          <!-- Property Grid -->
-          <div
-            class="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
-          >
-            <PropertyCard
-              v-for="property in filteredProperties"
-              :key="property.id"
-              :property="property"
-              :is-landlord="isLandlord"
-              @edit="editProperty"
-            />
-          </div>
         </div>
-      </main>
-    </div>
+      </div>
+    </main>
   </div>
 </template>
 
@@ -161,7 +157,3 @@ const editProperty = (property: any) => {
   }
 };
 </script>
-
-import ImageCarousel from '../components/ImageCarousel.vue'; import StatusBadge
-from '../components/StatusBadge.vue'; import PropertyCard from
-'../components/PropertyCard.vue';

@@ -1,37 +1,34 @@
 <template>
-  <nav class="bg-white shadow mb-6">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex justify-between h-16">
-        <div class="flex items-center">
-          <NuxtLink to="/dashboard" class="flex-shrink-0 flex items-center">
-            <svg
-              class="h-8 w-8 text-indigo-600 mr-2"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
-              />
-            </svg>
-            <!-- <h1 class="text-xl font-bold text-gray-900">Property Manager</h1> -->
+  <nav
+    class="bg-white border-2 border-blue-500/50 mb-6 fixed bottom-0 left-0 right-0 mx-auto w-fit z-50 rounded-tr-none p-3 rounded-2xl"
+  >
+    <div class="mx-auto px-4 sm:px-0 w">
+      <div class="flex justify-between">
+        <div class="flex items-center mr-22">
+          <NuxtLink
+            to="/dashboard"
+            class="flex-shrink-0 flex items-center h-6 w-6 ring-3 ring-blue-400 rounded-full bg-blue-600"
+          >
+            <!-- <h1 class="text-xl font-bold text-gray-900">Manager</h1> -->
           </NuxtLink>
         </div>
         <div class="flex items-center">
-          <div class="mr-4 text-sm text-gray-600">
-            <span class="font-medium">{{ userEmail }}</span>
+          <div class="mr-4 text-xs text-gray-600">
+            <span class="font-medium">
+              <span v-if="userName">{{ userName }}</span>
+              <span v-else>Guest</span>
+            </span>
             <span class="mx-2 text-gray-400">|</span>
             <span class="text-gray-500">{{ userRole }}</span>
           </div>
-          <button
+          <Button
+            variant="primary"
+            size="md"
             @click="handleLogout"
-            class="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            className="ml-2"
           >
             Logout
-          </button>
+          </Button>
         </div>
       </div>
     </div>
@@ -39,13 +36,14 @@
 </template>
 
 <script setup lang="ts">
+import Button from "./ui/Button.vue";
 const userRole = ref<string>("");
-const userEmail = ref<string>("");
+const userName = ref<string>("");
 
 const formatRole = (role: string): string => {
   switch (role) {
     case "PROPERTY_MANAGER":
-      return "Property Manager";
+      return "Manager";
     case "TENANT":
       return "Tenant";
     default:
@@ -58,7 +56,7 @@ onMounted(() => {
   if (userData) {
     const user = JSON.parse(userData);
     userRole.value = formatRole(user.role);
-    userEmail.value = user.email;
+    userName.value = user.name;
   }
 });
 
@@ -67,3 +65,14 @@ const handleLogout = () => {
   navigateTo("/auth/login");
 };
 </script>
+
+<style scoped>
+nav {
+  min-width: 320px;
+  max-width: 100vw;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+}
+</style>

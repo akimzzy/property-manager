@@ -1,18 +1,20 @@
 <template>
-  <div>
-    <NuxtPage />
-    <PropertyModal
-      v-model:show="showPropertyModal"
-      :property="selectedProperty"
-      @submit="handlePropertySubmit"
-    />
-    <ApplicationModal
-      :is-open="showApplicationModal"
-      :property-id="selectedPropertyId"
-      @close="closeApplicationModal"
-      @submit="handleApplicationSubmit"
-    />
-  </div>
+  <NuxtLayout>
+    <div>
+      <NuxtPage />
+      <PropertyModal
+        v-model:show="showPropertyModal"
+        :property="selectedProperty"
+        @submit="handlePropertySubmit"
+      />
+      <ApplicationModal
+        :is-open="showApplicationModal"
+        :property-id="selectedPropertyId"
+        @close="closeApplicationModal"
+        @submit="handleApplicationSubmit"
+      />
+    </div>
+  </NuxtLayout>
 </template>
 
 <script setup lang="ts">

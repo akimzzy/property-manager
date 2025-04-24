@@ -37,13 +37,15 @@
           >
             View Properties
           </NuxtLink>
-          <button
+          <Button
             v-if="isPropertyManager"
             @click="openPropertyModal?.(null)"
-            class="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+            variant="primary"
+            size="sm"
+            class="bg-green-600 hover:bg-green-700 focus:ring-green-500"
           >
             Add Property
-          </button>
+          </Button>
         </div>
       </div>
     </div>
@@ -212,6 +214,7 @@
 </template>
 
 <script setup lang="ts">
+import Button from "~/components/ui/Button.vue";
 import { computed } from "vue";
 import { mockProperties } from "~/data/mockProperties";
 import { mockActivities } from "~/data/mockActivities";

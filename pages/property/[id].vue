@@ -1,19 +1,22 @@
 <template>
-  <div class="min-h-screen bg-gray-100">
-    <AppHeader />
-
-    <div class="py-10">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="mb-6">
-          <BackButton />
-        </div>
-        <!-- Property Details -->
+  <div class="h-full w-full">
+    <div class="h-full">
+      <div class="mb-6">
+        <BackButton />
+      </div>
+      <!-- Property Details -->
+      <div
+        v-if="property"
+        class="overflow-hidden sm:rounded-lg flex flex-col lg:flex-row h-full gap-5"
+        style="height: calc(100vh - 150px)"
+      >
+        <!-- Left Section: Property Information -->
         <div
-          v-if="property"
-          class="bg-white shadow overflow-hidden sm:rounded-lg"
+          class="flex-1 min-w-0 overflow-y-auto h-full rounded-3xl"
+          style="height: calc(100vh - 150px)"
         >
           <!-- Image Carousel -->
-          <div class="relative w-full overflow-hidden" style="height: 400px">
+          <div class="relative w-full overflow-hidden rounded-3xl md:h-[450px]">
             <ImageCarousel
               :images="property.images"
               :alt-text="property.title"
@@ -23,23 +26,98 @@
           </div>
 
           <!-- Property Information -->
-          <div class="px-4 py-5 sm:px-6">
+          <div
+            class="px-4 py-5 sm:p-5 overflow-y-auto"
+            style="height: calc(100vh - 200px)"
+          >
             <div class="flex justify-between items-start">
               <div>
-                <h3 class="text-2xl font-bold text-gray-900">
+                <h3 class="text-xl font-bold text-gray-900">
                   {{ property.title }}
                 </h3>
-                <p class="mt-2 text-xl font-semibold text-gray-900">
+                <p class="text-gray-600 text-sm mt-1">
+                  {{ property.description }}
+                </p>
+                <p class="mt-2 text-lg font-semibold text-gray-900">
                   ${{ property.price }}/month
                 </p>
+                <div class="flex items-center gap-6 mt-4 text-gray-700">
+                  <div class="flex items-center gap-1">
+                    <svg
+                      class="h-5 w-5 text-blue-500"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M4 10V6a2 2 0 012-2h12a2 2 0 012 2v4M4 10v8a2 2 0 002 2h12a2 2 0 002-2v-8M4 10l8 6 8-6"
+                      />
+                    </svg>
+                    <span
+                      >{{ property.rooms || 0 }} Room{{
+                        property.rooms === 1 ? "" : "s"
+                      }}</span
+                    >
+                  </div>
+                  <div class="flex items-center gap-1">
+                    <svg
+                      class="h-5 w-5 text-blue-500"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M9 21V8a2 2 0 012-2h2a2 2 0 012 2v13"
+                      />
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M7 21h10"
+                      />
+                    </svg>
+                    <span
+                      >{{ property.bathrooms || 0 }} Bath{{
+                        property.bathrooms === 1 ? "" : "s"
+                      }}</span
+                    >
+                  </div>
+                  <div class="flex items-center gap-1">
+                    <svg
+                      class="h-5 w-5 text-blue-500"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M9 12h6m-3-3v6m-7 8a2 2 0 002 2h10a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v16z"
+                      />
+                    </svg>
+                    <span
+                      >{{ property.toilets || 0 }} Toilet{{
+                        property.toilets === 1 ? "" : "s"
+                      }}</span
+                    >
+                  </div>
+                </div>
               </div>
               <div class="flex items-center space-x-4">
                 <StatusBadge
                   :status="property.available ? 'available' : 'rented'"
                 />
                 <div v-if="isLandlord" class="flex items-center space-x-4">
-                  <button
+                  <Button
                     @click="openPropertyModal(property)"
+                    variant="secondary"
+                    size="sm"
                     class="text-blue-600 hover:text-blue-900 text-sm font-medium flex items-center"
                   >
                     <svg
@@ -56,9 +134,11 @@
                       />
                     </svg>
                     Edit
-                  </button>
-                  <button
+                  </Button>
+                  <Button
                     @click="showDeleteModal = true"
+                    variant="secondary"
+                    size="sm"
                     class="text-red-600 hover:text-red-900 text-sm font-medium flex items-center"
                   >
                     <svg
@@ -75,22 +155,18 @@
                       />
                     </svg>
                     Delete
-                  </button>
+                  </Button>
                 </div>
               </div>
             </div>
 
-            <div class="mt-4">
-              <p class="text-gray-600">{{ property.description }}</p>
-            </div>
-
-            <div class="mt-6 border-t border-gray-200 pt-6">
+            <div class="mt-5 border-t border-gray-200 pt-5">
               <dl class="grid grid-cols-1 gap-x-4 gap-y-6 sm:grid-cols-2">
                 <div>
                   <dt class="text-sm font-medium text-gray-500">Address</dt>
                   <dd class="mt-1 text-sm text-gray-900">
-                    {{ property.street }}<br />
-                    {{ property.city }}, {{ property.state }}
+                    {{ property.street }}, {{ property.city }},
+                    {{ property.state }}
                     {{ property.zipCode }}
                   </dd>
                 </div>
@@ -211,28 +287,32 @@
                             </p>
                           </div>
                           <div class="flex space-x-2">
-                            <button
+                            <Button
                               @click="
                                 handleApplicationAction(
                                   application.id,
                                   'approve'
                                 )
                               "
+                              variant="primary"
+                              size="sm"
                               class="px-3 py-1 text-sm font-medium text-white bg-green-600 hover:bg-green-700 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
                             >
                               Approve
-                            </button>
-                            <button
+                            </Button>
+                            <Button
                               @click="
                                 handleApplicationAction(
                                   application.id,
                                   'reject'
                                 )
                               "
+                              variant="secondary"
+                              size="sm"
                               class="px-3 py-1 text-sm font-medium text-white bg-red-600 hover:bg-red-700 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
                             >
                               Reject
-                            </button>
+                            </Button>
                           </div>
                         </div>
                         <div class="mt-2">
@@ -278,6 +358,8 @@
               <button
                 v-if="property.available"
                 @click="openApplicationModal"
+                variant="primary"
+                size="md"
                 class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
               >
                 Apply to Rent
@@ -285,6 +367,8 @@
               <button
                 v-if="!property.available && isCurrentTenant"
                 @click="openMaintenanceModal"
+                variant="primary"
+                size="md"
                 class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
               >
                 Request Maintenance
@@ -358,16 +442,48 @@
             />
           </div>
         </div>
+
+        <!-- Right Section: Comments -->
+        <div
+          class="lg:w-1/3 h-full rounded-3xl border border-gray-200 overflow-hidden"
+        >
+          <div class="border-b border-gray-200 p-6 bg-gray-100">
+            <h3 class="text-lg font-medium text-gray-900 mb-4">
+              Comments & Questions
+            </h3>
+
+            <!-- Add Comment Form -->
+            <div class="flex space-x-4">
+              <div class="flex-1">
+                <UiCommentInput
+                  :placeholder="'Add a comment...'"
+                  :initialText="newComment"
+                  @onSubmit="addComment"
+                  @onCancel="
+                    () => {
+                      newComment = '';
+                    }
+                  "
+                />
+              </div>
+            </div>
+          </div>
+
+          <!-- Comments List -->
+          <div class="space-y-6 max-h-[600px] overflow-y-auto bg-white">
+            <CommentSection :comments="propertyComments" />
+          </div>
+        </div>
       </div>
     </div>
-
-    <!-- Delete Confirmation Modal -->
-    <DeleteConfirmationModal
-      :show="showDeleteModal"
-      @confirm="handleDelete"
-      @close="showDeleteModal = false"
-    />
   </div>
+
+  <!-- Delete Confirmation Modal -->
+  <DeleteConfirmationModal
+    :show="showDeleteModal"
+    @confirm="handleDelete"
+    @close="showDeleteModal = false"
+  />
 </template>
 
 <script setup lang="ts">
@@ -377,12 +493,43 @@ import {
   type TenantApplication,
   mockApplications,
 } from "../../data/mockApplications";
+import { mockComments, type Comment } from "../../data/mockComments";
+import CommentSection from "../../components/CommentSection.vue";
+import Button from "~/components/ui/Button.vue";
+
+const route = useRoute();
 
 const isApplicationModalOpen = ref(false);
 const isMaintenanceModalOpen = ref(false);
 const applications = ref<TenantApplication[]>([]);
 const propertyMaintenanceRequests = ref<MaintenanceRequest[]>([]);
 const activeTab = ref("Maintenance Requests");
+
+const propertyComments = ref<Comment[]>(
+  mockComments.filter(
+    (comment) => comment.propertyId === Number(route.params.id)
+  )
+);
+const newComment = ref("");
+
+const addComment = () => {
+  if (!newComment.value.trim()) return;
+
+  const userData = localStorage.getItem("user");
+  const user = userData ? JSON.parse(userData) : null;
+
+  const comment: Comment = {
+    id: Math.random().toString(36).substr(2, 9),
+    userName: user?.name || "Anonymous",
+    text: newComment.value,
+    timestamp: new Date().toLocaleString(),
+    isLandlord: ["LANDLORD", "PROPERTY_MANAGER"].includes(userRole.value),
+    replies: [],
+  };
+
+  propertyComments.value.push(comment);
+  newComment.value = "";
+};
 
 const openApplicationModal = () => {
   isApplicationModalOpen.value = true;
@@ -396,8 +543,6 @@ const handleApplicationSubmit = (application: any) => {
   applications.value.push(application);
   console.log("Application submitted:", application);
 };
-
-const route = useRoute();
 
 const property = ref<Property | null>(null);
 const currentImageIndex = ref(0);

@@ -58,7 +58,7 @@
               <option value="">Select your role</option>
               <option value="TENANT">Tenant</option>
               <option value="LANDLORD">Landlord</option>
-              <option value="PROPERTY_MANAGER">Property Manager</option>
+              <option value="PROPERTY_MANAGER">Manager</option>
             </select>
           </div>
         </div>
@@ -77,12 +77,14 @@
         </div>
 
         <div>
-          <button
+          <Button
             type="submit"
-            class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            variant="primary"
+            size="md"
+            class="w-full flex justify-center"
           >
             Sign up
-          </button>
+          </Button>
         </div>
       </form>
 
@@ -100,6 +102,7 @@
 </template>
 
 <script setup lang="ts">
+import Button from "~/components/ui/Button.vue";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 

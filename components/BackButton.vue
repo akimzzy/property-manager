@@ -1,10 +1,10 @@
 <template>
   <button
     @click="router.back()"
-    class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+    class="inline-flex items-center px-2 py-1 border border-transparent text-sm font-medium text-black bg-transparent rounded-full hover:text-gray-500 focus:outline-none gap-1 cursor-pointer"
   >
     <svg
-      class="-ml-1 mr-2 h-5 w-5 text-gray-500"
+      class="h-4 w-4 text-inherit"
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 20 20"
       fill="currentColor"

@@ -1,7 +1,5 @@
 <template>
-  <div
-    class="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8"
-  >
+  <div class="flex items-center justify-center min-h-screen">
     <div class="max-w-md w-full space-y-8">
       <div>
         <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
@@ -37,17 +35,21 @@
         </div>
 
         <div>
-          <button
+          <Button
             type="submit"
-            class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            variant="primary"
+            size="md"
+            class="w-full flex justify-center"
           >
             Sign in
-          </button>
+          </Button>
         </div>
 
         <div class="flex items-center justify-center space-x-2">
-          <button
+          <Button
             @click="signInWithGoogle"
+            variant="secondary"
+            size="sm"
             class="flex items-center justify-center px-2 py-1.5 border border-gray-300 rounded-md shadow-sm text-xs font-medium text-gray-700 bg-white hover:bg-gray-50"
           >
             <img
@@ -56,9 +58,11 @@
               alt="Google logo"
             />
             Google
-          </button>
-          <button
+          </Button>
+          <Button
             @click="signInWithFacebook"
+            variant="secondary"
+            size="sm"
             class="flex items-center justify-center px-2 py-1.5 border border-gray-300 rounded-md shadow-sm text-xs font-medium text-gray-700 bg-white hover:bg-gray-50"
           >
             <img
@@ -67,9 +71,11 @@
               alt="Facebook logo"
             />
             Facebook
-          </button>
-          <button
+          </Button>
+          <Button
             @click="signInWithApple"
+            variant="secondary"
+            size="sm"
             class="flex items-center justify-center px-2 py-1.5 border border-gray-300 rounded-md shadow-sm text-xs font-medium text-gray-700 bg-white hover:bg-gray-50"
           >
             <img
@@ -78,7 +84,7 @@
               alt="Apple logo"
             />
             Apple
-          </button>
+          </Button>
         </div>
       </form>
 
@@ -96,9 +102,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
-import { useRouter } from "vue-router";
-
+import Button from "~/components/ui/Button.vue";
 const router = useRouter();
 const email = ref("");
 const password = ref("");
@@ -116,6 +120,7 @@ const handleSubmit = async () => {
       localStorage.setItem(
         "user",
         JSON.stringify({
+          name: user.name,
           email: user.email,
           role: user.role,
           isAuthenticated: true,
