@@ -1,11 +1,6 @@
 <template>
   <div>
     <div>
-      <div class="">
-        <h1 class="text-3xl font-bold leading-tight text-gray-900">
-          Dashboard
-        </h1>
-      </div>
       <main>
         <div class="">
           <div class="px-4 py-6 sm:px-0">

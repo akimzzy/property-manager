@@ -7,7 +7,7 @@
       "
       :rows="rows"
       :placeholder="placeholder"
-      class="block w-full rounded-lg border-gray-300 border outline-none text-sm resize-none p-1 bg-white"
+      class="block w-full rounded-lg border-gray-300 border outline-none text-xs resize-none p-1.5 bg-white"
     ></textarea>
   </div>
 </template>

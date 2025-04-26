@@ -1,8 +1,13 @@
 <template>
   <div class="flex items-center justify-center min-h-screen">
-    <div class="max-w-md w-full space-y-8">
-      <div>
-        <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
+    <div class="max-w-sm w-full space-y-8">
+      <div class="flex flex-col items-center">
+        <NuxtLink
+          to="/dashboard"
+          class="flex-shrink-0 flex items-center size-8 ring-3 ring-blue-400 rounded-full bg-blue-600"
+        >
+        </NuxtLink>
+        <h2 class="mt-6 text-center text-2xl font-bold text-gray-900">
           Sign in to your account
         </h2>
       </div>
@@ -16,7 +21,7 @@
               name="email"
               type="email"
               required
-              class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+              class="appearance-none rounded-none relative block w-full p-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
               placeholder="Email address"
             />
           </div>
@@ -28,13 +33,13 @@
               name="password"
               type="password"
               required
-              class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+              class="appearance-none rounded-none relative block w-full p-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
               placeholder="Password"
             />
           </div>
         </div>
 
-        <div>
+        <div class="text-center">
           <Button
             type="submit"
             variant="primary"

@@ -32,7 +32,7 @@
 
         <!-- Property Grid -->
         <div
-          class="px-4 py-6 sm:px-0 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
+          class="px-4 py-6 sm:px-0 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5"
         >
           <PropertyCard
             v-for="property in filteredProperties"

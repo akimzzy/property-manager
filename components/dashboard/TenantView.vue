@@ -15,7 +15,7 @@
 
     <!-- Available Properties Tab -->
     <div v-if="activeTab === 'available'">
-      <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+      <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
         <PropertyCard
           v-for="property in availableProperties"
           :key="property.id"

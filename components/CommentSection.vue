@@ -1,5 +1,5 @@
 <template>
-  <div class="">
+  <div class="text-xs">
     <!-- Comments List -->
     <div
       v-for="comment in comments"
@@ -9,11 +9,11 @@
       <!-- Main Comment -->
       <div class="flex space-x-4">
         <div class="flex-shrink-0">
-          <UserAvatar :username="comment.userName" size="md" />
+          <UserAvatar :username="comment.userName" size="sm" />
         </div>
         <div class="flex-1 min-w-0">
           <div class="flex items-center space-x-2 mb-1">
-            <p class="text-[13px] font-medium text-gray-900">
+            <p class="font-medium text-gray-900">
               {{ comment.userName }}
             </p>
             <span
@@ -26,11 +26,11 @@
               {{ formatDate(comment.timestamp) }}
             </p>
           </div>
-          <p class="text-[14px] text-gray-900 whitespace-pre-wrap">
+          <p class="text-gray-900 whitespace-pre-wrap">
             {{ comment.text }}
           </p>
           <!-- Reply Button and Input for Comment -->
-          <div class="mt-2 flex justify-start">
+          <div class="mt-1 flex justify-start">
             <Button
               v-if="!replyingTo[comment.id]"
               @click="toggleReply(comment.id)"
@@ -66,7 +66,7 @@
           </div>
           <div class="flex-1 min-w-0">
             <div class="flex items-center space-x-2 mb-1">
-              <p class="text-[13px] font-medium text-gray-900">
+              <p class="font-medium text-gray-900">
                 {{ reply.userName }}
               </p>
               <span
@@ -98,10 +98,10 @@
                 </span>
               </div>
             </div>
-            <p class="text-[14px] text-gray-900 whitespace-pre-wrap">
+            <p class="text-gray-900 whitespace-pre-wrap">
               {{ reply.text }}
             </p>
-            <div class="mt-2 flex justify-start">
+            <div class="mt-1 flex justify-start">
               <Button
                 v-if="!replyingTo[reply.id]"
                 @click="toggleReply(reply.id)"

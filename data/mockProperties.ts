@@ -16,6 +16,8 @@ export interface Property {
   rooms?: number;
   bathrooms?: number;
   toilets?: number;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export const mockProperties: Property[] = [
@@ -42,6 +44,8 @@ export const mockProperties: Property[] = [
     rooms: 2,
     bathrooms: 1,
     toilets: 1,
+    createdAt: "2023-09-10T10:00:00Z",
+    updatedAt: "2024-05-09T15:00:00Z",
   },
   {
     id: 2,
@@ -65,6 +69,8 @@ export const mockProperties: Property[] = [
     rooms: 3,
     bathrooms: 2,
     toilets: 2,
+    createdAt: "2023-08-20T16:45:00Z",
+    updatedAt: "2024-05-08T13:00:00Z",
   },
   {
     id: 3,
@@ -85,6 +91,8 @@ export const mockProperties: Property[] = [
     rooms: 3,
     bathrooms: 2,
     toilets: 2,
+    createdAt: "2023-08-20T16:45:00Z",
+    updatedAt: "2024-05-08T13:00:00Z",
   },
   {
     id: 4,
@@ -105,6 +113,8 @@ export const mockProperties: Property[] = [
     rooms: 1,
     bathrooms: 1,
     toilets: 1,
+    createdAt: "2023-10-05T11:00:00Z",
+    updatedAt: "2024-05-10T17:00:00Z",
   },
   {
     id: 5,
@@ -125,6 +135,8 @@ export const mockProperties: Property[] = [
     rooms: 4,
     bathrooms: 3,
     toilets: 3,
+    createdAt: "2023-05-30T13:00:00Z",
+    updatedAt: "2024-05-05T20:00:00Z",
   },
   {
     id: 6,
@@ -145,6 +157,8 @@ export const mockProperties: Property[] = [
     rooms: 1,
     bathrooms: 1,
     toilets: 1,
+    createdAt: "2023-10-05T11:00:00Z",
+    updatedAt: "2024-05-10T17:00:00Z",
   },
   {
     id: 7,
@@ -165,6 +179,8 @@ export const mockProperties: Property[] = [
     rooms: 5,
     bathrooms: 4,
     toilets: 4,
+    createdAt: "2023-07-15T15:00:00Z",
+    updatedAt: "2024-05-07T11:00:00Z",
   },
   {
     id: 8,
@@ -185,6 +201,8 @@ export const mockProperties: Property[] = [
     rooms: 3,
     bathrooms: 2,
     toilets: 2,
+    createdAt: "2023-08-20T16:45:00Z",
+    updatedAt: "2024-05-08T13:00:00Z",
   },
   {
     id: 9,
@@ -287,10 +305,6 @@ export const mockProperties: Property[] = [
     city: "Quiet Town",
     state: "ST",
     zipCode: "12358",
-    tenantId: null,
-    tenantEmail: null,
-    tenantName: null,
-    leaseEnd: null,
     tenantId: 1,
     tenantEmail: "john.doe@example.com",
     tenantName: "John Doe",
@@ -310,10 +324,6 @@ export const mockProperties: Property[] = [
     city: "Beach City",
     state: "ST",
     zipCode: "12359",
-    tenantId: null,
-    tenantEmail: null,
-    tenantName: null,
-    leaseEnd: null,
     tenantId: 1,
     tenantEmail: "john.doe@example.com",
     tenantName: "John Doe",
@@ -390,6 +400,8 @@ export const mockProperties: Property[] = [
     rooms: 2,
     bathrooms: 1,
     toilets: 1,
+    createdAt: "2023-09-10T10:00:00Z",
+    updatedAt: "2024-05-09T15:00:00Z",
   },
   {
     id: 20,
@@ -413,5 +425,11 @@ export const mockProperties: Property[] = [
     rooms: 1,
     bathrooms: 1,
     toilets: 1,
+    createdAt: "2023-10-05T11:00:00Z",
+    updatedAt: "2024-05-10T17:00:00Z",
+    createdAt: "2023-06-10T09:30:00Z",
+    updatedAt: "2024-05-06T09:00:00Z",
+    createdAt: "2023-04-25T08:15:00Z",
+    updatedAt: "2024-05-04T18:00:00Z",
   },
 ];

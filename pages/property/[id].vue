@@ -7,7 +7,7 @@
       <!-- Property Details -->
       <div
         v-if="property"
-        class="overflow-hidden sm:rounded-lg flex flex-col lg:flex-row h-full gap-5"
+        class="overflow-hidden sm:rounded-lg flex flex-col lg:flex-row h-full gap-10"
         style="height: calc(100vh - 150px)"
       >
         <!-- Left Section: Property Information -->
@@ -41,7 +41,7 @@
                 <p class="mt-2 text-lg font-semibold text-gray-900">
                   ${{ property.price }}/month
                 </p>
-                <div class="flex items-center gap-6 mt-4 text-gray-700">
+                <div class="flex items-center gap-6 mt-4 text-gray-700 text-xs">
                   <div class="flex items-center gap-1">
                     <svg
                       class="h-5 w-5 text-blue-500"
@@ -447,8 +447,8 @@
         <div
           class="lg:w-1/3 h-full rounded-3xl border border-gray-200 overflow-hidden"
         >
-          <div class="border-b border-gray-200 p-6 bg-gray-100">
-            <h3 class="text-lg font-medium text-gray-900 mb-4">
+          <div class="border-b border-gray-200 p-6 bg-gray-50">
+            <h3 class="text- font-medium text-gray-900 mb-2">
               Comments & Questions
             </h3>
 
