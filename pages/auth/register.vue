@@ -51,7 +51,7 @@
               placeholder="Password"
             />
           </div>
-          <div>
+          <!-- <div>
             <label for="role" class="sr-only">Role</label>
             <select
               id="role"
@@ -65,10 +65,10 @@
               <option value="LANDLORD">Landlord</option>
               <option value="PROPERTY_MANAGER">Manager</option>
             </select>
-          </div>
+          </div> -->
         </div>
 
-        <div class="flex items-center">
+        <!-- <div class="flex items-center">
           <input
             id="enable-mfa"
             v-model="enableMfa"
@@ -79,7 +79,7 @@
           <label for="enable-mfa" class="ml-2 block text-sm text-gray-900">
             Enable Multi-Factor Authentication
           </label>
-        </div>
+        </div> -->
 
         <div class="text-center">
           <Button

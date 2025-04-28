@@ -1,24 +1,26 @@
 <template>
-  <div class="flex gap-8">
+  <div class="flex gap-8 h-[calc(100vh-12rem)] min-h-0 overflow-hidden">
     <!-- Left Container: Cards -->
-    <div class="w-3/5 grid grid-cols-2 gap-6">
+    <div class="w-3/5 flex flex-col gap-3 h-full min-h-0 overflow-y-auto pr-2">
       <!-- Property Overview Card -->
       <div
-        class="bg-gradient-to-br from-gray-50 via-white to-gray-100 border-2 border-gray-200 overflow-hidden rounded-3xl relative col-span-full"
+        class="bg-gradient-to-br from-blue-50 via-white to-blue-100 border border-blue-200 overflow-hidden rounded-3xl relative flex flex-col justify-between mb-6"
       >
         <div class="p-8 flex flex-col h-full justify-between">
           <div class="flex items-center">
-            <div
+            <!-- <div
               class="flex-shrink-0 bg-blue-500 h-6 w-6 ring-3 ring-blue-400 rounded-full"
-            ></div>
-            <div class="ml-5 w-0 flex-1">
-              <dl>
+            ></div> -->
+            <div class="w-0 flex-1">
+              <dl class="flex items-center gap-4">
                 <dt class="text-lg font-medium text-gray-500 truncate">
                   Properties
                 </dt>
-                <!-- <dd class="text-sm font-medium text-gray-900">
+                <dd
+                  class="text-[10px] font-medium bg-blue-600 text-white size-8 flex justify-center items-center rounded-full ring-3 ring-blue-400"
+                >
                   {{ properties.length }}
-                </dd> -->
+                </dd>
               </dl>
             </div>
             <Button
@@ -44,7 +46,7 @@
               Add property
             </Button>
           </div>
-          <div class="">
+          <div class="mt-4">
             <span class="text-xs text-gray-600 mb-4 inline-block"
               >Recent properties</span
             >
@@ -121,170 +123,270 @@
         </div>
       </div>
 
-      <!-- Maintenance Requests Card -->
-      <div
-        class="bg-gradient-to-br from-gray-100 via-white to-yellow-50 border border-gray-300 overflow-hidden shadow rounded-lg"
-      >
-        <div class="p-5">
-          <div class="flex items-center">
-            <div class="flex-shrink-0 bg-yellow-500 rounded-md p-3">
-              <svg
-                class="h-6 w-6 text-white"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
+      <!-- Overview Cards Row -->
+      <div class="grid grid-cols-3 gap-6">
+        <!-- Maintenance Requests Card -->
+        <NuxtLink
+          to="/maintenance"
+          :class="[
+            'bg-gradient-to-br  border  overflow-hidden rounded-3xl p-8 flex flex-col h-64 group',
+            maintenanceHover
+              ? 'from-yellow-50 via-white to-yellow-50 border-yellow-200'
+              : 'from-gray-50 via-white to-gray-50 border-gray-200',
+          ]"
+          @mouseenter="maintenanceHover = true"
+          @mouseleave="maintenanceHover = false"
+        >
+          <div class="flex gap-4 items-center">
+            <span class="text-lg font-medium text-gray-500"> Maintenance </span>
+            <div class="text-xs text-gray-500 w-full mt-0.5">
+              <span
+                class="text-[10px] font-medium bg-yellow-600 text-white size-8 flex justify-center items-center rounded-full ring-3 ring-yellow-400"
               >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M13 10V3L4 14h7v7l9-11h-7z"
-                />
-              </svg>
-            </div>
-            <div class="ml-5 w-0 flex-1">
-              <dl>
-                <dt class="text-sm font-medium text-gray-500 truncate">
-                  Pending Maintenance
-                </dt>
-                <dd class="text-lg font-medium text-gray-900">
-                  {{ pendingMaintenanceCount }}
-                </dd>
-              </dl>
+                {{
+                  pendingMaintenanceCount +
+                  inProgressMaintenanceCount +
+                  completedMaintenanceCount
+                }}
+              </span>
             </div>
           </div>
-          <div class="mt-4">
-            <NuxtLink
-              to="/maintenance"
-              class="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+          <div
+            class="flex flex-col justify-center text-xs text-gray-700 flex-1 divide-y"
+          >
+            <div
+              class="text-xs text-gray-500 w-full p-1.5 border-gray-200 capitalize flex justify-between items-center"
+              v-for="stats in [
+                { name: 'pending', count: pendingMaintenanceCount },
+                { name: 'In progress', count: inProgressMaintenanceCount },
+                { name: 'completed', count: completedMaintenanceCount },
+              ]"
             >
-              View Maintenance
-            </NuxtLink>
+              {{ stats.name }}
+              <span class="font-semibold text-gray-800 p-1">{{
+                stats.count
+              }}</span>
+            </div>
           </div>
-        </div>
-      </div>
+          <div
+            :class="[
+              'inline-flex items-center text-xs font-medium transition-all focus:outline-none gap-0.5 justify-end',
+              maintenanceHover ? 'gap-1.5 text-yellow-700' : 'text-yellow-600',
+            ]"
+          >
+            See more
+            <svg
+              class="size-4 rotate-180"
+              fill="none"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path d="M19 12H5"></path>
+              <path d="m12 19-7-7 7-7"></path>
+            </svg>
+          </div>
+        </NuxtLink>
 
-      <!-- Rent Collection Card -->
-      <div
-        class="bg-gradient-to-br from-gray-100 via-white to-white border border-gray-300 overflow-hidden shadow rounded-lg"
-      >
-        <div class="p-5">
-          <div class="flex items-center">
-            <div class="flex-shrink-0 bg-green-500 rounded-md p-3">
-              <svg
-                class="h-6 w-6 text-white"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
+        <!-- Rent Collection Card -->
+        <NuxtLink
+          to="/payments"
+          :class="[
+            'bg-gradient-to-br border overflow-hidden rounded-3xl p-8 flex flex-col h-64 group',
+            rentHover
+              ? 'from-green-50 via-white to-green-50 border-green-200'
+              : 'from-gray-50 via-white to-gray-50 border-gray-200',
+          ]"
+          @mouseenter="rentHover = true"
+          @mouseleave="rentHover = false"
+        >
+          <div class="flex gap-4 items-center">
+            <span class="text-lg font-medium text-gray-500"> Rent </span>
+            <div class="text-xs text-gray-500 w-full mt-0.5">
+              <span
+                class="text-[10px] font-medium bg-green-600 text-white size-8 flex justify-center items-center rounded-full ring-3 ring-green-400"
               >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                />
-              </svg>
-            </div>
-            <div class="ml-5 w-0 flex-1">
-              <dl>
-                <dt class="text-sm font-medium text-gray-500 truncate">
-                  Monthly Rent Collection
-                </dt>
-                <dd class="text-lg font-medium text-gray-900">
-                  ${{ totalMonthlyRent }}
-                </dd>
-              </dl>
+                {{ totalRentedProperties }}
+              </span>
             </div>
           </div>
-          <div class="mt-4 flex space-x-2">
-            <NuxtLink
-              to="/payments"
-              class="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+          <div
+            class="flex flex-col justify-center text-xs text-gray-700 flex-1 divide-y"
+          >
+            <div
+              class="text-xs text-gray-500 w-full p-1.5 border-gray-200 capitalize flex justify-between items-center"
             >
-              View Payments
-            </NuxtLink>
+              Total Received
+              <span class="font-semibold text-gray-800 p-1"
+                >${{ totalReceivedRent }}</span
+              >
+            </div>
+            <div
+              class="text-xs text-gray-500 w-full p-2 border-gray-200 capitalize flex justify-between items-center"
+            >
+              Overdue Payments
+              <span class="font-semibold text-red-700 p-1"
+                >{{ overduePayments.count }}
+                <span v-if="overduePayments.count"
+                  >(${{ overduePayments.amount }})</span
+                ></span
+              >
+            </div>
+            <div
+              class="text-xs text-gray-500 w-full p-2 border-gray-200 capitalize flex justify-between items-center"
+            >
+              Upcoming Payments
+              <span class="font-semibold text-blue-700 p-1"
+                >{{ upcomingPayments.count }}
+                <span v-if="upcomingPayments.count"
+                  >(${{ upcomingPayments.amount }})</span
+                ></span
+              >
+            </div>
           </div>
-        </div>
-      </div>
+          <div
+            :class="[
+              'inline-flex items-center text-xs font-medium transition-all focus:outline-none gap-0.5 justify-end',
+              rentHover ? 'gap-1.5 text-green-700' : 'text-green-600',
+            ]"
+          >
+            See more
+            <svg
+              class="size-4 rotate-180"
+              fill="none"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path d="M19 12H5"></path>
+              <path d="m12 19-7-7 7-7"></path>
+            </svg>
+          </div>
+        </NuxtLink>
 
-      <!-- Tenant Overview Card -->
-      <div
-        class="bg-gradient-to-br from-gray-100 via-white to-green-50 border border-gray-300 overflow-hidden shadow rounded-lg"
-      >
-        <div class="p-5">
-          <div class="flex items-center">
-            <div class="flex-shrink-0 bg-blue-500 rounded-md p-3">
-              <svg
-                class="h-6 w-6 text-white"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
+        <!-- Tenant Overview Card -->
+        <NuxtLink
+          to="/tenants"
+          :class="[
+            'bg-gradient-to-br border overflow-hidden rounded-3xl p-8 flex flex-col h-64 group',
+            tenantHover
+              ? 'from-purple-50 via-white to-purple-50 border-purple-200'
+              : 'from-gray-50 via-white to-gray-50 border-gray-200',
+          ]"
+          @mouseenter="tenantHover = true"
+          @mouseleave="tenantHover = false"
+        >
+          <div class="flex gap-4 items-center">
+            <span class="text-lg font-medium text-gray-500"> Tenants </span>
+            <div class="flex gap-2 items-center mt-0.5">
+              <span
+                class="text-[10px] font-medium bg-purple-600 text-white size-8 flex justify-center items-center rounded-full ring-3 ring-purple-400"
               >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
-                />
-              </svg>
-            </div>
-            <div class="ml-5 w-0 flex-1">
-              <dl>
-                <dt class="text-sm font-medium text-gray-500 truncate">
-                  Total Tenants
-                </dt>
-                <dd class="text-lg font-medium text-gray-900">
-                  {{ totalTenants }}
-                </dd>
-              </dl>
+                {{ totalTenants }}
+              </span>
             </div>
           </div>
-          <div class="mt-4 flex space-x-2">
-            <NuxtLink
-              to="/tenants"
-              class="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+          <div
+            class="flex flex-col justify-center text-xs text-gray-700 flex-1 divide-y"
+          >
+            <div
+              class="text-xs text-gray-500 w-full p-1.5 border-gray-200 capitalize flex items-center justify-between"
             >
-              View Tenants
-            </NuxtLink>
+              Total Tenants
+              <span class="font-semibold text-gray-800 p-1">{{
+                totalTenants
+              }}</span>
+            </div>
+            <div
+              class="text-xs text-gray-500 w-full p-2 border-gray-200 capitalize flex items-center justify-between"
+            >
+              Applications
+              <span class="font-semibold text-gray-800 p-1">{{
+                totalTenantApplications
+              }}</span>
+            </div>
           </div>
-        </div>
+          <div
+            class="inline-flex items-center text-xs font-medium transition-all focus:outline-none gap-1.5 justify-end text-purple-700"
+          >
+            See more
+            <svg
+              class="size-4 rotate-180"
+              fill="none"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path d="M19 12H5"></path>
+              <path d="m12 19-7-7 7-7"></path>
+            </svg>
+          </div>
+        </NuxtLink>
       </div>
     </div>
 
     <!-- Right Container: Recent Activity -->
     <div class="w-2/5">
-      <div class="ml-0 lg:ml-4">
-        <h2 class="text-lg font-medium text-gray-900 mb-4">Recent Activity</h2>
-        <div class="bg-white shadow overflow-hidden sm:rounded-lg">
-          <ul class="divide-y divide-gray-200">
-            <li v-for="activity in activities" :key="activity.id" class="p-4">
+      <div class="ml-0 lg:ml-4 h-full flex flex-col">
+        <h2
+          class="text-lg font-medium text-gray-900 mb-4 flex items-center gap-2"
+        >
+          <svg
+            class="h-5 w-5 text-blue-500"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
+            /></svg
+          >Notifications
+        </h2>
+        <div class="bg- overflow-hidden sm:rounded-lg flex-1">
+          <ul class="space-y-3 h-full overflow-auto">
+            <li
+              v-for="activity in activities"
+              :key="activity.id"
+              :class="[
+                'p-4 rounded-2xl border',
+                activity.read
+                  ? 'bg-gray-50 border-gray-200'
+                  : 'bg-blue-50 border-blue-300',
+              ]"
+            >
               <div class="flex items-center space-x-4">
-                <div class="flex-shrink-0">
-                  <span :class="activity.iconClass" class="p-2 rounded-full">
-                    <svg
-                      class="h-5 w-5 text-white"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        :d="activity.icon"
-                      />
-                    </svg>
-                  </span>
-                </div>
                 <div class="flex-1 min-w-0">
-                  <p class="text-sm font-medium text-gray-900">
+                  <p
+                    class="text-sm font-medium"
+                    :class="activity.read ? 'text-gray-900' : 'text-blue-800'"
+                  >
                     {{ activity.title }}
                   </p>
-                  <p class="text-sm text-gray-500">
+                  <p
+                    class="text-xs"
+                    :class="activity.read ? 'text-gray-500' : 'text-blue-700'"
+                  >
                     {{ activity.description }}
                   </p>
                 </div>
-                <div class="text-sm text-gray-500">{{ activity.time }}</div>
+                <div
+                  class="text-xs"
+                  :class="activity.read ? 'text-gray-500' : 'text-blue-700'"
+                >
+                  {{ activity.time }}
+                </div>
               </div>
             </li>
           </ul>
@@ -300,6 +402,7 @@ import { computed } from "vue";
 import { mockProperties } from "~/data/mockProperties";
 import { mockActivities } from "~/data/mockActivities";
 import { mockTenants } from "~/data/mockTenants";
+import { mockApplications } from "~/data/mockApplications";
 
 interface Props {
   properties: any[];
@@ -309,13 +412,17 @@ interface Props {
   pendingMaintenanceCount: number;
   isPropertyManager: boolean;
   openPropertyModal?: (propertyId: number | null) => void;
+  totalTenantApplications?: number;
 }
 
 defineProps<Props>();
 
 const properties = computed(() => mockProperties);
-const activities = computed(() => mockActivities);
+const activities = computed(() =>
+  mockActivities.map((a, i) => ({ ...a, read: i !== 0 && i !== 2 }))
+);
 const totalTenants = computed(() => mockTenants.length);
+const totalTenantApplications = computed(() => mockApplications.length);
 const totalMonthlyRent = computed(() => {
   return mockProperties.reduce((total, property) => total + property.price, 0);
 });
@@ -329,6 +436,25 @@ const pendingMaintenanceCount = computed(() => {
   }, 0);
 });
 
+const inProgressMaintenanceCount = computed(() => {
+  return mockTenants.reduce((count, tenant) => {
+    return (
+      count +
+      tenant.maintenanceRequests.filter((req) => req.status === "in progress")
+        .length
+    );
+  }, 0);
+});
+
+const completedMaintenanceCount = computed(() => {
+  return mockTenants.reduce((count, tenant) => {
+    return (
+      count +
+      tenant.maintenanceRequests.filter((req) => req.status === "completed")
+        .length
+    );
+  }, 0);
+});
 const recentProperties = computed(() => {
   return [...mockProperties]
     .sort((a, b) => {
@@ -347,6 +473,63 @@ const formatDate = (dateString: string): string => {
     day: "numeric",
   });
 };
+import { ref } from "vue";
+import type { count } from "console";
+
+const maintenanceHover = ref(false);
+const rentHover = ref(false);
+const tenantHover = ref(false);
+const totalRentedProperties = computed(() => {
+  return mockTenants.reduce(
+    (total, tenant) => total + (tenant.rentedProperties?.length || 0),
+    0
+  );
+});
+
+const overduePayments = computed(() => {
+  let count = 0;
+  let amount = 0;
+  mockTenants.forEach((tenant) => {
+    if (tenant.payments) {
+      tenant.payments.forEach((payment) => {
+        if (payment.status === "overdue") {
+          count++;
+          amount += payment.amount;
+        }
+      });
+    }
+  });
+  return { count, amount };
+});
+
+const upcomingPayments = computed(() => {
+  let count = 0;
+  let amount = 0;
+  mockTenants.forEach((tenant) => {
+    if (tenant.payments) {
+      tenant.payments.forEach((payment) => {
+        if (payment.status === "upcoming") {
+          count++;
+          amount += payment.amount;
+        }
+      });
+    }
+  });
+  return { count, amount };
+});
+const totalReceivedRent = computed(() => {
+  let total = 0;
+  mockTenants.forEach((tenant) => {
+    if (tenant.payments) {
+      tenant.payments.forEach((payment) => {
+        if (payment.status === "received") {
+          total += payment.amount;
+        }
+      });
+    }
+  });
+  return total;
+});
 </script>
 
 <style scoped>
