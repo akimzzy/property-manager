@@ -4,317 +4,308 @@
       class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0"
     >
       <div class="fixed inset-0 transition-opacity" aria-hidden="true">
-        <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
+        <div class="absolute inset-0 bg-gray-700/20 backdrop-blur"></div>
       </div>
 
       <div
-        class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-2xl sm:w-full relative z-20"
+        class="inline-block align-bottom rounded-3xl text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-xl sm:w-full relative z-20 bg-gradient-to-br from-blue-50 via-white to-blue-100"
       >
         <form @submit.prevent="handleSubmit">
-          <div
-            class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4 border-b border-gray-200"
-          >
-            <h2 class="text-2xl font-bold text-gray-900">
+          <div class="px-4 pt-5 pb-4 sm:p-6 sm:pb-4 border-b border-gray-200">
+            <h2 class="text-lg font-medium text-gray-500 truncate">
               {{ property ? "Edit Property" : "Create Property" }}
             </h2>
           </div>
           <div
-            class="bg-white px-4 sm:px-6 py-4 max-h-[calc(90vh-180px)] overflow-y-auto"
+            class="px-4 sm:px-6 py-6 max-h-[calc(90vh-180px)] overflow-y-auto"
           >
-            <div class="mb-4">
-              <label for="title" class="block text-sm font-medium text-gray-700"
-                >Title</label
-              >
-              <input
-                type="text"
-                id="title"
-                v-model="form.title"
-                required
-                class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-              />
-            </div>
-
-            <div class="mb-4">
-              <label
-                for="description"
-                class="block text-sm font-medium text-gray-700"
-                >Description</label
-              >
-              <textarea
-                id="description"
-                v-model="form.description"
-                rows="3"
-                required
-                class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-              ></textarea>
-            </div>
-
-            <div class="mb-4">
-              <label for="price" class="block text-sm font-medium text-gray-700"
-                >Monthly Rent ($)</label
-              >
-              <input
-                type="number"
-                id="price"
-                v-model.number="form.price"
-                required
-                min="0"
-                class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-              />
-            </div>
-
-            <div class="mb-4">
-              <label
-                for="street"
-                class="block text-sm font-medium text-gray-700"
-                >Street Address</label
-              >
-              <input
-                type="text"
-                id="street"
-                v-model="form.street"
-                required
-                class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-              />
-            </div>
-
-            <div class="mb-4 grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div>
+            <!-- Section 1: Title, Description, Price -->
+            <PropertyModalSectionWrapper title="Basic Information">
+              <div class="mb-4">
                 <label
-                  for="rooms"
-                  class="block text-sm font-medium text-gray-700 flex items-center gap-1"
+                  for="title"
+                  class="block text-xs font-medium text-gray-700"
+                  >Title</label
                 >
-                  <svg
-                    class="inline h-4 w-4 text-indigo-500 mr-1"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      d="M3 21V10a1 1 0 011-1h16a1 1 0 011 1v11M3 21h18M3 21v-2a2 2 0 012-2h14a2 2 0 012 2v2"
-                    />
-                  </svg>
-                  Rooms
-                </label>
                 <input
-                  type="number"
-                  id="rooms"
-                  v-model.number="form.rooms"
-                  min="0"
-                  class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                  type="text"
+                  id="title"
+                  v-model="form.title"
+                  required
+                  class="mt-1 block w-full border border-gray-200 rounded-xl py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-xs"
                 />
               </div>
-              <div>
+              <div class="mb-4">
                 <label
-                  for="bathrooms"
-                  class="block text-sm font-medium text-gray-700 flex items-center gap-1"
+                  for="description"
+                  class="block text-xs font-medium text-gray-700"
+                  >Description</label
                 >
-                  <svg
-                    class="inline h-4 w-4 text-indigo-500 mr-1"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      d="M9 21V7a3 3 0 016 0v14M5 21h14"
-                    />
-                  </svg>
-                  Bathrooms
-                </label>
-                <input
-                  type="number"
-                  id="bathrooms"
-                  v-model.number="form.bathrooms"
-                  min="0"
-                  class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                />
+                <textarea
+                  id="description"
+                  v-model="form.description"
+                  rows="3"
+                  required
+                  class="mt-1 block w-full border border-gray-300 rounded-xl py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-xs"
+                ></textarea>
               </div>
-              <div>
-                <label
-                  for="toilets"
-                  class="block text-sm font-medium text-gray-700 flex items-center gap-1"
-                >
-                  <svg
-                    class="inline h-4 w-4 text-indigo-500 mr-1"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    viewBox="0 0 24 24"
+              <div class="">
+                <div class="mb-4">
+                  <label
+                    for="street"
+                    class="block text-xs font-medium text-gray-700"
+                    >Street Address</label
                   >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      d="M9 17v-2a2 2 0 012-2h2a2 2 0 012 2v2m-6 0h6m-6 0v2a2 2 0 002 2h2a2 2 0 002-2v-2"
-                    />
-                  </svg>
-                  Toilets
-                </label>
-                <input
-                  type="number"
-                  id="toilets"
-                  v-model.number="form.toilets"
-                  min="0"
-                  class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                />
-              </div>
-            </div>
-            <div class="mb-4">
-              <label for="city" class="block text-sm font-medium text-gray-700"
-                >City</label
-              >
-              <input
-                type="text"
-                id="city"
-                v-model="form.city"
-                required
-                class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-              />
-            </div>
-
-            <div class="mb-4">
-              <label for="state" class="block text-sm font-medium text-gray-700"
-                >State</label
-              >
-              <input
-                type="text"
-                id="state"
-                v-model="form.state"
-                required
-                class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-              />
-            </div>
-            <div class="mb-4">
-              <label
-                for="zipCode"
-                class="block text-sm font-medium text-gray-700"
-                >ZIP Code</label
-              >
-              <input
-                type="text"
-                id="zipCode"
-                v-model="form.zipCode"
-                required
-                pattern="[0-9]{5}"
-                class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-              />
-            </div>
-
-            <div class="mb-4">
-              <label class="block text-sm font-medium text-gray-700"
-                >Images</label
-              >
-              <div
-                class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md"
-                @drop.prevent="handleDrop"
-                @dragover.prevent
-              >
-                <div class="space-y-1 text-center">
-                  <svg
-                    class="mx-auto h-12 w-12 text-gray-400"
-                    stroke="currentColor"
-                    fill="none"
-                    viewBox="0 0 48 48"
-                  >
-                    <path
-                      d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    />
-                  </svg>
-                  <div class="flex text-sm text-gray-600">
+                  <textarea
+                    id="street"
+                    v-model="form.street"
+                    required
+                    rows="2"
+                    class="mt-1 block w-full border border-gray-300 rounded-xl py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-xs"
+                  ></textarea>
+                </div>
+                <div class="flex flex-col gap-4 sm:flex-row sm:gap-4">
+                  <div class="mb-4 flex-1">
                     <label
-                      for="file-upload"
-                      class="relative cursor-pointer bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500"
+                      for="city"
+                      class="block text-xs font-medium text-gray-700"
+                      >City</label
                     >
-                      <span>Upload a file</span>
-                      <input
-                        id="file-upload"
-                        type="file"
-                        multiple
-                        accept="image/*"
-                        class="sr-only"
-                        @change="handleFileInput"
-                      />
-                    </label>
-                    <p class="pl-1">or drag and drop</p>
+                    <input
+                      type="text"
+                      id="city"
+                      v-model="form.city"
+                      required
+                      class="mt-1 block w-full border border-gray-300 rounded-xl py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-xs"
+                    />
                   </div>
-                  <p class="text-xs text-gray-500">PNG, JPG, GIF up to 10MB</p>
+                  <div class="mb-4 flex-1">
+                    <label
+                      for="state"
+                      class="block text-xs font-medium text-gray-700"
+                      >State</label
+                    >
+                    <input
+                      type="text"
+                      id="state"
+                      v-model="form.state"
+                      required
+                      class="mt-1 block w-full border border-gray-300 rounded-xl py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-xs"
+                    />
+                  </div>
+                  <div class="mb-4 flex-1">
+                    <label
+                      for="zipCode"
+                      class="block text-xs font-medium text-gray-700"
+                      >ZIP Code</label
+                    >
+                    <input
+                      type="text"
+                      id="zipCode"
+                      v-model="form.zipCode"
+                      required
+                      pattern="[0-9]{5}"
+                      class="mt-1 block w-full border border-gray-300 rounded-xl py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-xs"
+                    />
+                  </div>
                 </div>
               </div>
-
-              <div
-                v-if="form.images.length > 0"
-                class="mt-4 grid grid-cols-3 gap-4"
-              >
-                <div
-                  v-for="(image, index) in form.images"
-                  :key="index"
-                  class="relative group"
-                >
-                  <img
-                    :src="image"
-                    class="h-24 w-full object-cover rounded-md"
-                    alt="Property image"
+              <div class="mb-4 flex flex-col sm:flex-row sm:items-end sm:gap-4">
+                <div class="flex-1">
+                  <label
+                    for="price"
+                    class="block text-xs font-medium text-gray-700"
+                    >Monthly Rent (₦)</label
+                  >
+                  <input
+                    type="number"
+                    id="price"
+                    v-model.number="form.price"
+                    required
+                    min="0"
+                    class="mt-1 block w-full border border-gray-300 rounded-xl py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-xs"
                   />
+                </div>
+                <div class="flex-1">
+                  <label
+                    for="yearlyRent"
+                    class="block text-xs font-medium text-gray-700"
+                    >Yearly Rent (₦)</label
+                  >
+                  <input
+                    type="number"
+                    id="yearlyRent"
+                    v-model.number="form.yearlyRent"
+                    required
+                    min="0"
+                    class="mt-1 block w-full border border-gray-300 rounded-xl py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-xs"
+                  />
+                </div>
+              </div>
+              <div class="mb-4 flex items-center gap-2">
+                <UiToggle v-model="autoCalculateRent" />
+                <label
+                  for="auto-calc-toggle"
+                  class="block text-xs text-gray-900 select-none cursor-pointer"
+                  @click.prevent="autoCalculateRent = !autoCalculateRent"
+                >
+                  Auto-calculate yearly/monthly rent
+                </label>
+              </div>
+            </PropertyModalSectionWrapper>
+
+            <!-- Section 2: Address Fields -->
+
+            <!-- Section 3: Features -->
+            <PropertyModalSectionWrapper title="Features">
+              <div class="">
+                <div
+                  v-for="(feature, idx) in allFeatures"
+                  :key="idx"
+                  class="flex items-center gap-2 mb-2"
+                >
+                  <input
+                    type="text"
+                    v-model="feature.key"
+                    placeholder="Feature Name"
+                    class="block w-1/3 border border-gray-200 rounded-xl py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-xs bg-gray-100"
+                  />
+                  <textarea
+                    v-model="feature.value"
+                    placeholder="Feature Value"
+                    rows="1"
+                    class="block w-2/3 border border-gray-300 rounded-xl py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-xs"
+                  ></textarea>
                   <button
                     type="button"
-                    @click="removeImage(index)"
-                    class="absolute top-0 right-0 hidden group-hover:block p-1 bg-red-500 text-white rounded-full transform translate-x-1/2 -translate-y-1/2"
+                    @click="removeFeature(idx)"
+                    class="text-red-500 hover:text-red-700 ml-1"
                   >
-                    <svg
-                      class="h-4 w-4"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M6 18L18 6M6 6l12 12"
-                      />
-                    </svg>
+                    &times;
                   </button>
                 </div>
+                <div class="flex">
+                  <UiButton
+                    type="button"
+                    @click="addFeature"
+                    size="sm"
+                    class="mt-2 text-gray-500 hover:text-gray-700"
+                  >
+                    + Add Feature
+                  </UiButton>
+                </div>
               </div>
-            </div>
+            </PropertyModalSectionWrapper>
 
+            <!-- Section 4: Images -->
+            <PropertyModalSectionWrapper title="Upload Images and Videos">
+              <div class="">
+                <div
+                  class="flex justify-center px-6 pt-5 pb-6"
+                  @drop.prevent="handleDrop"
+                  @dragover.prevent
+                >
+                  <div class="space-y-1 text-center">
+                    <svg
+                      class="mx-auto h-12 w-12 text-gray-400"
+                      stroke="currentColor"
+                      fill="none"
+                      viewBox="0 0 48 48"
+                    >
+                      <path
+                        d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                    <div class="flex text-xs text-gray-600">
+                      <label
+                        for="file-upload"
+                        class="relative cursor-pointer bg-white rounded-md font-medium text-blue-600 hover:text-blue-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-blue-500"
+                      >
+                        <span>Upload a file</span>
+                        <input
+                          id="file-upload"
+                          type="file"
+                          multiple
+                          accept="image/*"
+                          class="sr-only"
+                          @change="handleFileInput"
+                        />
+                      </label>
+                      <p class="pl-1">or drag and drop</p>
+                    </div>
+                    <p class="text-xs text-gray-500">
+                      PNG, JPG, GIF up to 10MB
+                    </p>
+                  </div>
+                </div>
+                <div
+                  v-if="form.images.length > 0"
+                  class="mt-4 grid grid-cols-3 gap-4"
+                >
+                  <div
+                    v-for="(image, index) in form.images"
+                    :key="index"
+                    class="relative group"
+                  >
+                    <img
+                      :src="image"
+                      class="h-24 w-full object-cover rounded-md"
+                      alt="Property image"
+                    />
+                    <button
+                      type="button"
+                      @click="removeImage(index)"
+                      class="absolute top-0 right-0 hidden group-hover:block p-1 bg-red-500 text-white rounded-full transform translate-x-1/2 -translate-y-1/2"
+                    >
+                      <svg
+                        class="h-4 w-4"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M6 18L18 6M6 6l12 12"
+                        />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </PropertyModalSectionWrapper>
+
+            <!-- Availability Checkbox -->
             <div class="flex items-center">
-              <input
-                type="checkbox"
-                id="available"
-                v-model="form.available"
-                class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
-              />
-              <label for="available" class="ml-2 block text-sm text-gray-900"
-                >Available for Rent</label
+              <UiToggle v-model="form.available" />
+              <label
+                for="available"
+                class="ml-2 block text-xs text-gray-900 select-none cursor-pointer"
+                @click.prevent="form.available = !form.available"
               >
+                Available for Rent
+              </label>
             </div>
           </div>
 
           <div
-            class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse sticky bottom-0"
+            class="px-4 sm:px-6 sm:flex sm:flex-row-reverse sticky bottom-0 gap-2 py-5 border-t border-gray-200"
           >
-            <button
-              type="submit"
-              class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:ml-3 sm:w-auto sm:text-sm"
-            >
+            <UiButton type="submit" size="sm" variant="primary">
               {{ property ? "Save Changes" : "Add Property" }}
-            </button>
-            <button
+            </UiButton>
+            <UiButton
               type="button"
               @click="closeModal"
-              class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:w-auto sm:text-sm"
+              variant="secondary"
+              size="sm"
             >
               Cancel
-            </button>
+            </UiButton>
           </div>
         </form>
       </div>
@@ -323,8 +314,13 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from "vue";
+import { ref, watch, computed } from "vue";
+import UiToggle from "./ui/UiToggle.vue";
 
+interface Feature {
+  key: string;
+  value: string;
+}
 interface Property {
   id: number;
   title: string;
@@ -336,6 +332,10 @@ interface Property {
   city: string;
   state: string;
   zipCode: string;
+  rooms?: number;
+  bathrooms?: number;
+  toilets?: number;
+  features?: Feature[];
 }
 
 const props = defineProps<{
@@ -348,26 +348,87 @@ const emit = defineEmits<{
   (e: "submit", property: Omit<Property, "id">): void;
 }>();
 
+const autoCalculateRent = ref(true);
+
 const form = ref({
   title: "",
   description: "",
   price: 0,
+  yearlyRent: 0,
   images: [] as string[],
   available: true,
   street: "",
   city: "",
   state: "",
   zipCode: "",
-  rooms: props.property?.rooms ?? 1,
-  bathrooms: props.property?.bathrooms ?? 1,
-  toilets: props.property?.toilets ?? 1,
+  rooms: 1,
+  bathrooms: 1,
+  toilets: 1,
+  features: [] as Feature[],
+});
+
+const allFeatures = computed<Feature[]>({
+  get() {
+    return [
+      { key: "rooms", value: String(form.value.rooms) },
+      { key: "bathrooms", value: String(form.value.bathrooms) },
+      { key: "toilets", value: String(form.value.toilets) },
+      ...form.value.features,
+    ];
+  },
+  set(newFeatures: Feature[]) {
+    const [rooms, bathrooms, toilets, ...rest] = newFeatures;
+    form.value.rooms = Number(rooms?.value) || 0;
+    form.value.bathrooms = Number(bathrooms?.value) || 0;
+    form.value.toilets = Number(toilets?.value) || 0;
+    form.value.features = rest.map((f) => ({ key: f.key, value: f.value }));
+  },
+});
+
+watch(
+  [() => form.value.price, autoCalculateRent],
+  ([newPrice, autoCalc], [oldPrice, oldAutoCalc]) => {
+    if (autoCalc && newPrice !== undefined && newPrice !== null) {
+      form.value.yearlyRent = Math.round(Number(newPrice) * 12);
+    }
+  }
+);
+
+watch(
+  [() => form.value.yearlyRent, autoCalculateRent],
+  ([newYearly, autoCalc], [oldYearly, oldAutoCalc]) => {
+    if (autoCalc && newYearly !== undefined && newYearly !== null) {
+      form.value.price = Math.round(Number(newYearly) / 12);
+    }
+  }
+);
+
+// Prevent infinite loop: only update the other field if the value actually changed
+watch(autoCalculateRent, (enabled) => {
+  if (enabled) {
+    // Sync both fields
+    form.value.yearlyRent = Math.round(Number(form.value.price) * 12);
+  }
 });
 
 watch(
   () => props.property,
   (newProperty) => {
     if (newProperty) {
-      form.value = { ...newProperty };
+      form.value = {
+        ...newProperty,
+        yearlyRent: newProperty.price
+          ? Math.round(Number(newProperty.price) * 12)
+          : 0,
+        rooms: newProperty.rooms ?? 1,
+        bathrooms: newProperty.bathrooms ?? 1,
+        toilets: newProperty.toilets ?? 1,
+        features: Array.isArray(newProperty.features)
+          ? newProperty.features.filter(
+              (f) => !["rooms", "bathrooms", "toilets"].includes(f.key)
+            )
+          : [],
+      };
     } else {
       resetForm();
     }
@@ -380,20 +441,32 @@ function resetForm() {
     title: "",
     description: "",
     price: 0,
+    yearlyRent: 0,
     images: [],
     available: true,
     street: "",
     city: "",
     state: "",
     zipCode: "",
-    rooms: props.property?.rooms ?? 1,
-    bathrooms: props.property?.bathrooms ?? 1,
-    toilets: props.property?.toilets ?? 1,
+    rooms: 1,
+    bathrooms: 1,
+    toilets: 1,
+    features: [],
   };
+  autoCalculateRent.value = true;
 }
 
 function handleSubmit() {
-  emit("submit", { ...form.value });
+  const output = {
+    ...form.value,
+    features: [
+      ...form.value.features,
+      { key: "rooms", value: String(form.value.rooms) },
+      { key: "bathrooms", value: String(form.value.bathrooms) },
+      { key: "toilets", value: String(form.value.toilets) },
+    ],
+  };
+  emit("submit", output);
   closeModal();
 }
 
@@ -438,5 +511,18 @@ function handleDrop(event: DragEvent) {
 
 function removeImage(index: number) {
   form.value.images.splice(index, 1);
+}
+
+function addFeature() {
+  form.value.features.push({ key: "", value: "" });
+}
+function removeFeature(idx: number) {
+  if (idx < 3) {
+    if (idx === 0) form.value.rooms = 0;
+    if (idx === 1) form.value.bathrooms = 0;
+    if (idx === 2) form.value.toilets = 0;
+  } else {
+    form.value.features.splice(idx - 3, 1);
+  }
 }
 </script>

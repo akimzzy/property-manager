@@ -54,7 +54,7 @@
             <label
               for="monthlyIncome"
               class="block text-sm font-medium text-gray-700"
-              >Monthly Income ($)</label
+              >Monthly Income (₦)</label
             >
             <input
               type="number"

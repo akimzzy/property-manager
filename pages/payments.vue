@@ -18,21 +18,21 @@
             <div class="mt-4 grid grid-cols-1 gap-5 sm:grid-cols-3">
               <div class="bg-gray-50 p-4 rounded-lg">
                 <h3 class="text-sm font-medium text-gray-500">Total Due</h3>
-                <p class="mt-1 text-2xl font-semibold text-gray-900">$24,500</p>
+                <p class="mt-1 text-2xl font-semibold text-gray-900">₦24,500</p>
               </div>
               <div class="bg-gray-50 p-4 rounded-lg">
                 <h3 class="text-sm font-medium text-gray-500">
                   Collected This Month
                 </h3>
                 <p class="mt-1 text-2xl font-semibold text-green-600">
-                  $18,300
+                  ₦18,300
                 </p>
               </div>
               <div class="bg-gray-50 p-4 rounded-lg">
                 <h3 class="text-sm font-medium text-gray-500">
                   Outstanding Balance
                 </h3>
-                <p class="mt-1 text-2xl font-semibold text-red-600">$6,200</p>
+                <p class="mt-1 text-2xl font-semibold text-red-600">₦6,200</p>
               </div>
             </div>
           </div>
@@ -93,7 +93,7 @@
                     </div>
                     <div class="mt-2">
                       <p class="text-sm text-gray-900">
-                        Amount: ${{ payment.amount }}
+                        Amount: ₦{{ payment.amount }}
                       </p>
                       <p class="text-sm text-gray-500">
                         Due Date: {{ payment.dueDate }}

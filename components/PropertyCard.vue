@@ -24,7 +24,7 @@
         <h3 class="text-sm font-medium text-white line-clamp-2">
           {{ property.title }}
         </h3>
-        <p class="text-sm font-semibold text-white">${{ property.price }}/m</p>
+        <p class="text-sm font-semibold text-white">₦{{ property.price }}/m</p>
       </div>
 
       <p class="text-xs text-gray-300">

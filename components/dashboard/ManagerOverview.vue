@@ -2,127 +2,13 @@
   <div class="flex gap-8 h-[calc(100vh-12rem)] min-h-0 overflow-hidden">
     <!-- Left Container: Cards -->
     <div class="w-3/5 flex flex-col gap-3 h-full min-h-0 overflow-y-auto pr-2">
-      <!-- Property Overview Card -->
-      <div
-        class="bg-gradient-to-br from-blue-50 via-white to-blue-100 border border-blue-200 overflow-hidden rounded-3xl relative flex flex-col justify-between mb-6"
-      >
-        <div class="p-8 flex flex-col h-full justify-between">
-          <div class="flex items-center">
-            <!-- <div
-              class="flex-shrink-0 bg-blue-500 h-6 w-6 ring-3 ring-blue-400 rounded-full"
-            ></div> -->
-            <div class="w-0 flex-1">
-              <dl class="flex items-center gap-4">
-                <dt class="text-lg font-medium text-gray-500 truncate">
-                  Properties
-                </dt>
-                <dd
-                  class="text-[10px] font-medium bg-blue-600 text-white size-8 flex justify-center items-center rounded-full ring-3 ring-blue-400"
-                >
-                  {{ properties.length }}
-                </dd>
-              </dl>
-            </div>
-            <Button
-              v-if="isPropertyManager"
-              @click="openPropertyModal?.(null)"
-              variant="primary"
-              size="sm"
-              class="right-0 size-10"
-            >
-              <svg
-                class="size-5"
-                fill="none"
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path d="M12 5v14"></path>
-                <path d="M5 12h14"></path>
-              </svg>
-              Add property
-            </Button>
-          </div>
-          <div class="mt-4">
-            <span class="text-xs text-gray-600 mb-4 inline-block"
-              >Recent properties</span
-            >
-            <div
-              class="flex gap-4 overflow-x-auto pb-2 scrollbar-thin scrollbar-thumb-gray-200 scrollbar-track-gray-50 rounded-2xl hide-scrollbar"
-            >
-              <div
-                v-for="property in recentProperties"
-                :key="property.id"
-                class="flex-shrink-0 w-48 rounded-2xl hover:shadow-md transition-shadow duration-200 p-0 flex flex-col items-center overflow-hidden"
-                style="min-width: 12rem; max-width: 12rem"
-              >
-                <NuxtLink
-                  :to="`/property/${property.id}`"
-                  class="w-full flex flex-col items-center p-0"
-                >
-                  <img
-                    :src="
-                      property.images && property.images.length
-                        ? property.images[0]
-                        : '/placeholder.png'
-                    "
-                    :alt="property.title"
-                    class="w-full aspect-square object-cover rounded-bl-2xl rounded-br-2xl bg-gray-100"
-                    style="height: 12rem; min-height: 12rem; max-height: 12rem"
-                  />
-                  <div class="w-full flex flex-col items-center my-3">
-                    <div
-                      class="text-xs font-medium text-gray-900 line-clamp-2 w-full text-center"
-                    >
-                      {{ property.title }}
-                    </div>
-                    <div
-                      class="text-xs text-gray-500 w-full text-center mt-0.5"
-                    >
-                      {{ property.city }}, {{ property.state }}
-                    </div>
-                    <!-- <span class="text-xs text-gray-400">{{
-                      formatDate(property.updatedAt || property.createdAt)
-                    }}</span> -->
-                  </div>
-                </NuxtLink>
-              </div>
-              <div
-                v-if="recentProperties.length === 0"
-                class="flex-shrink-0 w-32 flex items-center justify-center text-xs text-gray-400 bg-white border border-gray-100 rounded-xl p-4"
-                style="min-width: 8rem; max-width: 8rem"
-              >
-                No recent properties
-              </div>
-            </div>
-            <div class="mt-2 flex space-x-2 justify-end">
-              <NuxtLink
-                to="/properties"
-                class="inline-flex items-center px-3 py-1.5 border-none text-xs font-medium text-blue-500 border-blue-500 hover:gap-1.5 hover:text-blue-700 transition-all focus:outline-none gap-0.5"
-              >
-                View all properties
-                <svg
-                  class="size-4 rotate-180"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path d="M19 12H5"></path>
-                  <path d="m12 19-7-7 7-7"></path>
-                </svg>
-              </NuxtLink>
-            </div>
-          </div>
-        </div>
-      </div>
-
+      <PropertiesSection
+        :properties="properties"
+        :recentProperties="recentProperties"
+        :isPropertyManager="isPropertyManager"
+        :openPropertyModal="openPropertyModal"
+      />
+      <!-- Other cards can go here -->
       <!-- Overview Cards Row -->
       <div class="grid grid-cols-3 gap-6">
         <!-- Maintenance Requests Card -->
@@ -333,70 +219,16 @@
         </NuxtLink>
       </div>
     </div>
-
     <!-- Right Container: Recent Activity -->
     <div class="w-2/5">
-      <div class="ml-0 lg:ml-4 h-full flex flex-col">
-        <h2
-          class="text-lg font-medium text-gray-900 mb-4 flex items-center gap-2"
-        >
-          <svg
-            class="h-5 w-5 text-blue-500"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            viewBox="0 0 24 24"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
-            /></svg
-          >Notifications
-        </h2>
-        <div class="bg- overflow-hidden sm:rounded-lg flex-1">
-          <ul class="space-y-3 h-full overflow-auto">
-            <li
-              v-for="activity in activities"
-              :key="activity.id"
-              :class="[
-                'p-4 rounded-2xl border',
-                activity.read
-                  ? 'bg-gray-50 border-gray-200'
-                  : 'bg-blue-50 border-blue-300',
-              ]"
-            >
-              <div class="flex items-center space-x-4">
-                <div class="flex-1 min-w-0">
-                  <p
-                    class="text-sm font-medium"
-                    :class="activity.read ? 'text-gray-900' : 'text-blue-800'"
-                  >
-                    {{ activity.title }}
-                  </p>
-                  <p
-                    class="text-xs"
-                    :class="activity.read ? 'text-gray-500' : 'text-blue-700'"
-                  >
-                    {{ activity.description }}
-                  </p>
-                </div>
-                <div
-                  class="text-xs"
-                  :class="activity.read ? 'text-gray-500' : 'text-blue-700'"
-                >
-                  {{ activity.time }}
-                </div>
-              </div>
-            </li>
-          </ul>
-        </div>
-      </div>
+      <NotificationsSection :activities="activities" />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import PropertiesSection from "~/components/dashboard/PropertiesSection.vue";
+import NotificationsSection from "~/components/dashboard/NotificationsSection.vue";
 import Button from "~/components/ui/Button.vue";
 import { computed } from "vue";
 import { mockProperties } from "~/data/mockProperties";

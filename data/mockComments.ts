@@ -73,7 +73,7 @@ export const mockComments: Comment[] = [
             id: "c2r2r1",
             propertyId: 2,
             userName: "Manager",
-            text: "It's $50/month for an extra spot.",
+            text: "It's ₦50/month for an extra spot.",
             timestamp: "2024-01-16T11:30:00Z",
             isLandlord: true,
           },

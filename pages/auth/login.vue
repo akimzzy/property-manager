@@ -44,7 +44,7 @@
             type="submit"
             variant="primary"
             size="md"
-            class="w-full flex justify-center"
+            class="w-full flex justify-center w-full"
           >
             Sign in
           </Button>
