@@ -48,6 +48,9 @@
 </template>
 
 <script setup lang="ts">
+definePageMeta({
+  layout: "authenticated",
+});
 import {
   ref,
   computed,
@@ -58,18 +61,26 @@ import {
 } from "vue";
 import { useRouter } from "vue-router";
 import { mockProperties } from "../data/mockProperties";
+import { useCookie } from "#app";
 
 // Add role-based access control
 const router = useRouter();
+const accessToken = useCookie("access_token");
 
 onBeforeMount(() => {
-  const userData = localStorage.getItem("user");
+  const userData = accessToken.value;
   if (!userData) {
     router.push("/auth/login");
     return;
   }
 
-  const user = JSON.parse(userData);
+  let user;
+  try {
+    user = typeof userData === "string" ? JSON.parse(userData) : userData;
+  } catch (e) {
+    router.push("/auth/login");
+    return;
+  }
   const allowedRoles = ["ADMIN", "LANDLORD", "PROPERTY_MANAGER"];
   if (!allowedRoles.includes(user.role)) {
     router.push("/dashboard");
@@ -130,10 +141,15 @@ onMounted(() => {
     }
   });
 
-  const userData = localStorage.getItem("user");
+  const userData = accessToken.value;
   if (userData) {
-    const user = JSON.parse(userData);
-    userRole.value = user.role;
+    let user;
+    try {
+      user = typeof userData === "string" ? JSON.parse(userData) : userData;
+      userRole.value = user.role;
+    } catch (e) {
+      userRole.value = "";
+    }
   }
 });
 

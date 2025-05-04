@@ -39,57 +39,15 @@
           </div>
         </div>
 
-        <div class="text-center">
-          <Button
+        <div class="text-center w-full bg-green-100">
+          <UiButton
             type="submit"
             variant="primary"
             size="md"
             class="w-full flex justify-center w-full"
           >
             Sign in
-          </Button>
-        </div>
-
-        <div class="flex items-center justify-center space-x-2">
-          <Button
-            @click="signInWithGoogle"
-            variant="secondary"
-            size="sm"
-            class="flex items-center justify-center px-2 py-1.5 border border-gray-300 rounded-md shadow-sm text-xs font-medium text-gray-700 bg-white hover:bg-gray-50"
-          >
-            <img
-              class="h-4 w-4 mr-1"
-              src="https://www.svgrepo.com/show/475656/google-color.svg"
-              alt="Google logo"
-            />
-            Google
-          </Button>
-          <Button
-            @click="signInWithFacebook"
-            variant="secondary"
-            size="sm"
-            class="flex items-center justify-center px-2 py-1.5 border border-gray-300 rounded-md shadow-sm text-xs font-medium text-gray-700 bg-white hover:bg-gray-50"
-          >
-            <img
-              class="h-4 w-4 mr-1"
-              src="https://www.svgrepo.com/show/475647/facebook-color.svg"
-              alt="Facebook logo"
-            />
-            Facebook
-          </Button>
-          <Button
-            @click="signInWithApple"
-            variant="secondary"
-            size="sm"
-            class="flex items-center justify-center px-2 py-1.5 border border-gray-300 rounded-md shadow-sm text-xs font-medium text-gray-700 bg-white hover:bg-gray-50"
-          >
-            <img
-              class="h-4 w-4 mr-1"
-              src="https://www.svgrepo.com/show/475631/apple-color.svg"
-              alt="Apple logo"
-            />
-            Apple
-          </Button>
+          </UiButton>
         </div>
       </form>
 
@@ -107,50 +65,39 @@
 </template>
 
 <script setup lang="ts">
-import Button from "~/components/ui/Button.vue";
-const router = useRouter();
+import { ref } from "vue";
+import { useRouter } from "vue-router";
+import { loginApi } from "../../composables/useCustomFetch";
+import { useCookie } from "#app";
+
 const email = ref("");
 const password = ref("");
+const router = useRouter();
+const loading = ref(false);
+const errorMsg = ref("");
 
-import { mockUsers } from "~/data/mockUsers";
-
-const handleSubmit = async () => {
+const { login } = useDecodedAuth();
+async function handleSubmit() {
+  loading.value = true;
+  errorMsg.value = "";
   try {
-    const user = mockUsers.find(
-      (u) => u.email === email.value && u.password === password.value
-    );
+    const data = await loginApi(email.value, password.value);
+    console.log(data);
 
-    if (user) {
-      // Store user session in localStorage with more details including role
-      localStorage.setItem(
-        "user",
-        JSON.stringify({
-          name: user.name,
-          email: user.email,
-          role: user.role,
-          isAuthenticated: true,
-          loginTime: new Date().toISOString(),
-        })
-      );
-      await router.push("/dashboard");
+    if (data?.access_token) {
+      login({
+        access_token: data.access_token,
+        email: email.value,
+        account: "manager",
+      });
+      router.push("/dashboard");
     } else {
-      alert("Invalid credentials. Please try again.");
+      errorMsg.value = "Invalid response from server.";
     }
-  } catch (error) {
-    console.error("Login failed:", error);
-    alert("An error occurred during login.");
+  } catch (err) {
+    errorMsg.value = err?.message || "Login failed.";
+  } finally {
+    loading.value = false;
   }
-};
-
-const signInWithGoogle = () => {
-  alert("Google sign-in is not available in prototype mode.");
-};
-
-const signInWithFacebook = () => {
-  alert("Facebook sign-in is not available in prototype mode.");
-};
-
-const signInWithApple = () => {
-  alert("Apple sign-in is not available in prototype mode.");
-};
+}
 </script>

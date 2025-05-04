@@ -107,37 +107,37 @@
 </template>
 
 <script setup lang="ts">
-import Button from "~/components/ui/Button.vue";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
+import { registerApi } from "../../composables/useCustomFetch";
+import { useCookie } from "#app";
 
-const router = useRouter();
 const name = ref("");
 const email = ref("");
 const password = ref("");
-const role = ref("");
-const enableMfa = ref(false);
+const router = useRouter();
+const loading = ref(false);
+const errorMsg = ref("");
 
-const handleSubmit = async () => {
+async function handleSubmit() {
+  loading.value = true;
+  errorMsg.value = "";
   try {
-    // Simulate registration by storing user data in localStorage
-    const newUser = {
-      name: name.value,
-      email: email.value,
-      role: role.value,
-      mfaEnabled: enableMfa.value,
-      isAuthenticated: true,
-      registrationTime: new Date().toISOString(),
-    };
-
-    // Store the new user in localStorage
-    localStorage.setItem("user", JSON.stringify(newUser));
-
-    // Redirect to dashboard after successful registration
-    await router.push("/dashboard");
-  } catch (error) {
-    console.error("Registration failed:", error);
-    alert("An error occurred during registration.");
+    const data = await registerApi(name.value, email.value, password.value);
+    if (data && data.token) {
+      const accessToken = useCookie("access_token");
+      accessToken.value = JSON.stringify({
+        access_token: data.token,
+        email: email.value,
+      });
+      router.push("/dashboard");
+    } else {
+      errorMsg.value = "Invalid response from server.";
+    }
+  } catch (err) {
+    errorMsg.value = err?.message || "Registration failed.";
+  } finally {
+    loading.value = false;
   }
-};
+}
 </script>

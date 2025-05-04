@@ -515,7 +515,7 @@ const newComment = ref("");
 const addComment = () => {
   if (!newComment.value.trim()) return;
 
-  const userData = localStorage.getItem("user");
+  const userData = localStorage.getItem("access_token");
   const user = userData ? JSON.parse(userData) : null;
 
   const comment: Comment = {
@@ -565,7 +565,7 @@ const isCurrentTenant = computed(() => {
     userRole.value === "PROPERTY_MANAGER"
   )
     return false;
-  const userData = localStorage.getItem("user");
+  const userData = localStorage.getItem("access_token");
   if (!userData) return false;
   const user = JSON.parse(userData);
   const tenant = mockTenants.find((t) => t.email === user.email);
@@ -603,7 +603,7 @@ const nextImage = () => {
 
 onMounted(async () => {
   // Get user data from localStorage
-  const userData = localStorage.getItem("user");
+  const userData = localStorage.getItem("access_token ");
   if (userData) {
     const user = JSON.parse(userData);
     userRole.value = user.role;

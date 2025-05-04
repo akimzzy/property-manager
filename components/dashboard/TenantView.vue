@@ -94,6 +94,7 @@
 import { mockProperties } from "~/data/mockProperties";
 import { mockTenants } from "~/data/mockTenants";
 import PropertyCard from "~/components/PropertyCard.vue";
+import { useCookie } from "#app";
 
 interface MaintenanceRequest {
   id: number;
@@ -142,17 +143,21 @@ const availableProperties = computed(() =>
   mockProperties.filter((p) => p.available)
 );
 const rentedProperties = computed(() => {
-  if (typeof window === "undefined") return [];
-  let user: any = localStorage.getItem("user");
-  if (!user) return [];
-  user = JSON.parse(user);
+  const userData = accessToken.value;
+  if (!userData) return [];
+  let user;
+  try {
+    user = typeof userData === "string" ? JSON.parse(userData) : userData;
+  } catch (e) {
+    return [];
+  }
   const tenant = mockTenants.find((t) => t.email === user?.email);
   return tenant ? tenant.rentedProperties : [];
 });
 
 const maintenanceRequests = computed<MaintenanceRequest[]>(() => {
   if (typeof window === "undefined") return [];
-  let user: any = localStorage.getItem("user");
+  let user: any = localStorage.getItem("access_token");
   if (!user) return [];
   user = JSON.parse(user);
   const tenant = mockTenants.find((t) => t.email === user?.email);

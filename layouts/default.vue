@@ -1,12 +1,12 @@
 <template>
   <div class="flex flex-col min-h-screen py-10">
-    <AppHeader
+    <!-- <AppHeader
       v-if="
         $route.path !== '/' &&
         $route.path !== '/auth/login' &&
         $route.path !== '/auth/register'
       "
-    />
+    /> -->
     <div
       class="flex-grow max-w-[1450px] mx-auto px-4 sm:px-0 mb-10 w-full flex flex-col"
     >

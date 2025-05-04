@@ -88,7 +88,7 @@ import { ref } from "vue";
 
 interface Props {
   isOpen: boolean;
-  propertyId: number;
+  propertyId: number | null;
 }
 
 const props = defineProps<Props>();

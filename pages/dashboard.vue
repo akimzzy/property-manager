@@ -31,6 +31,9 @@
 </template>
 
 <script setup lang="ts">
+definePageMeta({
+  layout: "authenticated",
+});
 import { ref, computed, onMounted, inject } from "vue";
 import { mockProperties, type Property } from "../data/mockProperties";
 import { mockTenants } from "../data/mockTenants";
@@ -38,18 +41,16 @@ import { mockActivities, type Activity } from "../data/mockActivities";
 import ManagerOverview from "~/components/dashboard/ManagerOverview.vue";
 import TenantView from "~/components/dashboard/TenantView.vue";
 
-const userRole = ref<string>("");
 const rentedProperties = ref<Property[]>([]);
 const recentActivities = ref<Activity[]>(mockActivities);
 
+const { role } = useDecodedAuth();
+console.log(role.value);
 // Computed properties
-const isManager = computed(() =>
-  ["LANDLORD", "PROPERTY_MANAGER"].includes(userRole.value)
-);
-const isPropertyManager = computed(() => userRole.value === "PROPERTY_MANAGER");
-const isAdminOrLandlord = computed(() =>
-  ["ADMIN", "LANDLORD", "PROPERTY_MANAGER"].includes(userRole.value)
-);
+const isManager = computed(() => role.value === "manager");
+const isPropertyManager = computed(() => role.value === "manager");
+
+const isAdminOrLandlord = computed(() => role.value === "manager");
 const availableProperties = computed(() =>
   mockProperties.filter((p) => p.available)
 );
@@ -69,15 +70,8 @@ const openApplicationModal = inject<(propertyId: number) => void>(
 );
 
 onMounted(() => {
-  const userData = localStorage.getItem("user");
-  if (userData) {
-    const user = JSON.parse(userData);
-    userRole.value = user.role;
-
-    // Set rented properties for tenant view
-    if (!isAdminOrLandlord.value) {
-      rentedProperties.value = mockProperties.filter((p) => !p.available);
-    }
+  if (!isAdminOrLandlord.value) {
+    rentedProperties.value = mockProperties.filter((p) => !p.available);
   }
 });
 </script>

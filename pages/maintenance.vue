@@ -99,6 +99,9 @@
 </template>
 
 <script setup lang="ts">
+definePageMeta({
+  layout: "authenticated",
+});
 import { useRouter } from "vue-router";
 const router = useRouter();
 import { ref, computed } from "vue";

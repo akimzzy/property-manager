@@ -104,7 +104,6 @@
                       id="zipCode"
                       v-model="form.zipCode"
                       required
-                      pattern="[0-9]{5}"
                       class="mt-1 block w-full border border-gray-300 rounded-xl py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-xs"
                     />
                   </div>
@@ -315,6 +314,7 @@
 
 <script setup lang="ts">
 import { ref, watch, computed } from "vue";
+import { useCustomFetch } from "../composables/useCustomFetch";
 import UiToggle from "./ui/UiToggle.vue";
 
 interface Feature {
@@ -456,18 +456,75 @@ function resetForm() {
   autoCalculateRent.value = true;
 }
 
-function handleSubmit() {
-  const output = {
-    ...form.value,
-    features: [
-      ...form.value.features,
-      { key: "rooms", value: String(form.value.rooms) },
-      { key: "bathrooms", value: String(form.value.bathrooms) },
-      { key: "toilets", value: String(form.value.toilets) },
-    ],
-  };
-  emit("submit", output);
-  closeModal();
+async function handleSubmit() {
+  try {
+    const isEdit = !!props.property;
+    if (isEdit) {
+      const output = {
+        ...form.value,
+        features: [
+          ...form.value.features,
+          { key: "rooms", value: String(form.value.rooms) },
+          { key: "bathrooms", value: String(form.value.bathrooms) },
+          { key: "toilets", value: String(form.value.toilets) },
+        ],
+      };
+      emit("submit", output);
+      closeModal();
+      return;
+    }
+    // CREATE property logic
+    const formData = new FormData();
+    formData.append("title", form.value.title);
+    formData.append("description", form.value.description);
+    formData.append("price", String(form.value.price));
+    formData.append("yearlyRent", String(form.value.yearlyRent));
+    formData.append("available", String(form.value.available));
+    formData.append("street", form.value.street);
+    formData.append("city", form.value.city);
+    formData.append("state", form.value.state);
+    formData.append("zipCode", form.value.zipCode);
+    formData.append("rooms", String(form.value.rooms));
+    formData.append("bathrooms", String(form.value.bathrooms));
+    formData.append("toilets", String(form.value.toilets));
+    // Features (excluding rooms, bathrooms, toilets)
+    form.value.features.forEach((f, idx) => {
+      formData.append(`features[${idx}][key]`, f.key);
+      formData.append(`features[${idx}][value]`, f.value);
+    });
+    // Images: convert base64 to File if needed
+    form.value.images.forEach((img, idx) => {
+      if (typeof img === "string" && img.startsWith("data:")) {
+        // Convert base64 to Blob
+        const arr = img.split(",");
+        const mime = arr[0].match(/:(.*?);/)[1];
+        const bstr = atob(arr[1]);
+        let n = bstr.length;
+        const u8arr = new Uint8Array(n);
+        while (n--) {
+          u8arr[n] = bstr.charCodeAt(n);
+        }
+        const file = new File([u8arr], `image_${idx}.png`, { type: mime });
+        formData.append("files", file);
+      } else if (img instanceof File) {
+        formData.append("files", img);
+      }
+    });
+    // Auth handled by useCustomFetch
+    const data = await useCustomFetch("properties", {
+      method: "POST",
+      body: formData,
+      headers: {}, // Let useCustomFetch set Content-Type for FormData
+    });
+    emit("submit", data);
+    closeModal();
+  } catch (err) {
+    alert(
+      err?.response?.data?.message ||
+        err.message ||
+        "Failed to create property."
+    );
+  }
 }
 
 function closeModal() {

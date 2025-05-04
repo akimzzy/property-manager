@@ -20,11 +20,10 @@
             <span class="mx-2 text-gray-400">|</span>
             <select
               v-model="userRole"
-              @change="handleRoleChange"
               class="text-gray-500 bg-transparent border-none focus:ring-0 cursor-pointer text-xs py-0 pl-0 pr-6"
             >
-              <option value="Manager">Manager</option>
-              <option value="Tenant">Tenant</option>
+              <option value="manager">Manager</option>
+              <option value="tenant">Tenant</option>
             </select>
           </div>
           <Button
@@ -43,42 +42,12 @@
 
 <script setup lang="ts">
 import Button from "./ui/Button.vue";
-const userRole = ref<string>("");
+
+const { role } = useDecodedAuth();
+const userRole = ref(role.value);
 const userName = ref<string>("");
 
-const formatRole = (role: string): string => {
-  switch (role) {
-    case "PROPERTY_MANAGER":
-      return "Manager";
-    case "TENANT":
-      return "Tenant";
-    default:
-      return role;
-  }
-};
-
-const handleRoleChange = () => {
-  const userData = localStorage.getItem("user");
-  if (userData) {
-    const user = JSON.parse(userData);
-    user.role = userRole.value === "Manager" ? "PROPERTY_MANAGER" : "TENANT";
-    localStorage.setItem("user", JSON.stringify(user));
-  }
-};
-
-onMounted(() => {
-  const userData = localStorage.getItem("user");
-  if (userData) {
-    const user = JSON.parse(userData);
-    userRole.value = formatRole(user.role);
-    userName.value = user.name;
-  }
-});
-
-const handleLogout = () => {
-  localStorage.removeItem("user");
-  navigateTo("/auth/login");
-};
+const { logout: handleLogout } = useDecodedAuth();
 </script>
 
 <style scoped>

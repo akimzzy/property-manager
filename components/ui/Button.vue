@@ -1,7 +1,7 @@
 <template>
   <button
     :class="[
-      'inline-flex items-center font-medium focus:outline-none focus:ring-1 w-max focus:ring-offset-1 cursor-pointer rounded-lg',
+      'inline-flex items-center font-medium focus:outline-none focus:ring-1 focus:ring-offset-1 cursor-pointer rounded-lg',
       variant === 'primary'
         ? 'border-transparent text-white bg-blue-600 hover:bg-blue-700 focus:ring-blue-500'
         : variant === 'secondary'

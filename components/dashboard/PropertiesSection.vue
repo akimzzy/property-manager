@@ -12,16 +12,15 @@
             <span
               class="text-[10px] font-medium bg-blue-600 text-white size-8 flex justify-center items-center rounded-full ring-3 ring-blue-400"
             >
-              ₦{{ properties.length }}
+              {{ properties.length }}
             </span>
           </div>
         </div>
         <Button
-          v-if="isPropertyManager"
           @click="openPropertyModal?.(null)"
           variant="primary"
-          size="sm"
-          class="right-0 size-10 flex gap-1 items-center"
+          size="md"
+          class="flex gap-1 items-center"
         >
           <svg
             class="size-4"

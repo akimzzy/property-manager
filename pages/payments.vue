@@ -122,6 +122,9 @@
 </template>
 
 <script setup lang="ts">
+definePageMeta({
+  layout: "authenticated",
+});
 import { navigateTo } from "#app";
 import { ref, computed } from "vue";
 

@@ -1,23 +1,24 @@
-import { defineNuxtRouteMiddleware, navigateTo } from "#app";
+import { defineNuxtRouteMiddleware, navigateTo, useCookie } from "#app";
+import { useDecodedAuth } from "~/composables/useDecodedAuth";
 
 export default defineNuxtRouteMiddleware((to) => {
-  // Only run on client-side
-  if (import.meta.client) {
-    const user = localStorage.getItem("user");
+  // Use cookies for SSR compatibility
+  const { decoded, isValid } = useDecodedAuth();
+  console.log({ decoded: decoded.value, isValid: isValid.value });
 
-    // Allow all users to access the home page
-    if (to.path === "/") {
-      return;
-    }
+  // Allow all users to access the home page
+  if (to.path === "/") {
+    return;
+  }
 
-    // If user is not authenticated and trying to access protected routes
-    if (!user && !to.path.startsWith("/auth/")) {
-      return navigateTo("/auth/login");
-    }
+  // If user is not authenticated and trying to access protected routes
+  if (!isValid.value && !to.path.startsWith("/auth/")) {
+    console.log("HEY");
+    return navigateTo("/auth/login");
+  }
 
-    // If user is authenticated and trying to access auth pages
-    if (user && to.path.startsWith("/auth/")) {
-      return navigateTo("/dashboard");
-    }
+  // If user is authenticated and trying to access auth pages
+  if (isValid.value && to.path.startsWith("/auth/")) {
+    return navigateTo("/dashboard");
   }
 });
