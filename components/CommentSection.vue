@@ -139,7 +139,7 @@
 </template>
 
 <script setup lang="ts">
-import { type Comment } from "../data/mockComments";
+import type { Comment } from "../types";
 import { ref, computed, type ComputedRef } from "vue";
 import Button from "./ui/Button.vue";
 import TextArea from "./ui/TextArea.vue";

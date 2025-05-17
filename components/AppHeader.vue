@@ -26,14 +26,14 @@
               <option value="tenant">Tenant</option>
             </select>
           </div>
-          <Button
+          <UiButton
             variant="primary"
             size="md"
             @click="handleLogout"
             className="ml-2"
           >
             Logout
-          </Button>
+          </UiButton>
         </div>
       </div>
     </div>
@@ -41,8 +41,6 @@
 </template>
 
 <script setup lang="ts">
-import Button from "./ui/Button.vue";
-
 const { role } = useDecodedAuth();
 const userRole = ref(role.value);
 const userName = ref<string>("");

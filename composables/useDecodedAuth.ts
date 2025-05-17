@@ -8,7 +8,6 @@ interface DecodedToken {
 
 export type AccessToken = {
   access_token: string;
-  email: string;
   account: "manager" | "tenant";
 };
 
@@ -37,7 +36,8 @@ export function useDecodedAuth() {
 
   const login = (authToken: AccessToken) => {
     accessToken.value = authToken;
+    navigateTo("/dashboard");
   };
 
-  return { logout, login, isValid, decoded, role };
+  return { logout, login, isValid, decoded, role, accessToken };
 }

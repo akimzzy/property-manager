@@ -105,8 +105,9 @@ definePageMeta({
 import { useRouter } from "vue-router";
 const router = useRouter();
 import { ref, computed } from "vue";
-import { mockTenants, type MaintenanceRequest } from "../data/mockTenants";
+import { mockTenants } from "../data/mockTenants";
 import { mockProperties } from "../data/mockProperties";
+import type { MaintenanceRequest } from "../types";
 
 const statusFilter = ref("all");
 

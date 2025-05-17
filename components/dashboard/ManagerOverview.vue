@@ -2,13 +2,8 @@
   <div class="flex gap-8 h-[calc(100vh-12rem)] min-h-0 overflow-hidden">
     <!-- Left Container: Cards -->
     <div class="w-3/5 flex flex-col gap-3 h-full min-h-0 overflow-y-auto pr-2">
-      <PropertiesSection
-        :properties="properties"
-        :recentProperties="recentProperties"
-        :isPropertyManager="isPropertyManager"
-        :openPropertyModal="openPropertyModal"
-      />
-      <!-- Other cards can go here -->
+      <PropertiesSection :properties="properties" />
+
       <!-- Overview Cards Row -->
       <div class="grid grid-cols-3 gap-6">
         <!-- Maintenance Requests Card -->
@@ -61,19 +56,7 @@
             ]"
           >
             See more
-            <svg
-              class="size-4 rotate-180"
-              fill="none"
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path d="M19 12H5"></path>
-              <path d="m12 19-7-7 7-7"></path>
-            </svg>
+            <UiArrowIcon />
           </div>
         </NuxtLink>
 
@@ -140,19 +123,7 @@
             ]"
           >
             See more
-            <svg
-              class="size-4 rotate-180"
-              fill="none"
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path d="M19 12H5"></path>
-              <path d="m12 19-7-7 7-7"></path>
-            </svg>
+            <UiArrowIcon />
           </div>
         </NuxtLink>
 
@@ -202,23 +173,12 @@
             class="inline-flex items-center text-xs font-medium transition-all focus:outline-none gap-1.5 justify-end text-purple-700"
           >
             See more
-            <svg
-              class="size-4 rotate-180"
-              fill="none"
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path d="M19 12H5"></path>
-              <path d="m12 19-7-7 7-7"></path>
-            </svg>
+            <UiArrowIcon />
           </div>
         </NuxtLink>
       </div>
     </div>
+
     <!-- Right Container: Recent Activity -->
     <div class="w-2/5">
       <NotificationsSection :activities="activities" />
@@ -229,35 +189,34 @@
 <script setup lang="ts">
 import PropertiesSection from "~/components/dashboard/PropertiesSection.vue";
 import NotificationsSection from "~/components/dashboard/NotificationsSection.vue";
-import Button from "~/components/ui/Button.vue";
-import { computed } from "vue";
-import { mockProperties } from "~/data/mockProperties";
+import { computed, ref } from "vue";
 import { mockActivities } from "~/data/mockActivities";
 import { mockTenants } from "~/data/mockTenants";
 import { mockApplications } from "~/data/mockApplications";
+import { type Property } from "~/types";
 
-interface Props {
-  properties: any[];
-  activities: any[];
-  totalTenants: number;
-  totalMonthlyRent: number;
-  pendingMaintenanceCount: number;
-  isPropertyManager: boolean;
-  openPropertyModal?: (propertyId: number | null) => void;
-  totalTenantApplications?: number;
-}
+const { $api } = useNuxtApp();
 
-defineProps<Props>();
+// Fetch properties from backend
+// const { data: modules } = await useAsyncData("properties", () =>
+//   $api("/properties/manager")
+// );
+// console.log(modules.value);
 
-const properties = computed(() => mockProperties);
+const {
+  data: properties,
+  pending: propertiesLoading,
+  error: propertiesError,
+} = await useAPI<Property[]>("/properties/manager");
+
+// const properties: Property[] = [];
+
 const activities = computed(() =>
   mockActivities.map((a, i) => ({ ...a, read: i !== 0 && i !== 2 }))
 );
 const totalTenants = computed(() => mockTenants.length);
 const totalTenantApplications = computed(() => mockApplications.length);
-const totalMonthlyRent = computed(() => {
-  return mockProperties.reduce((total, property) => total + property.price, 0);
-});
+
 const pendingMaintenanceCount = computed(() => {
   return mockTenants.reduce((count, tenant) => {
     return (
@@ -287,26 +246,6 @@ const completedMaintenanceCount = computed(() => {
     );
   }, 0);
 });
-const recentProperties = computed(() => {
-  return [...mockProperties]
-    .sort((a, b) => {
-      const dateA = new Date(a.updatedAt || a.createdAt).getTime();
-      const dateB = new Date(b.updatedAt || b.createdAt).getTime();
-      return dateB - dateA;
-    })
-    .slice(0, 5);
-});
-
-const formatDate = (dateString: string): string => {
-  if (!dateString) return "";
-  return new Date(dateString).toLocaleDateString(undefined, {
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-  });
-};
-import { ref } from "vue";
-import type { count } from "console";
 
 const maintenanceHover = ref(false);
 const rentHover = ref(false);
@@ -373,3 +312,4 @@ const totalReceivedRent = computed(() => {
   display: none; /* Chrome, Safari, Opera */
 }
 </style>
+import SeeMoreButton from "~/components/ui/SeeMoreButton.vue";

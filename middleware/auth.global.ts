@@ -3,8 +3,8 @@ import { useDecodedAuth } from "~/composables/useDecodedAuth";
 
 export default defineNuxtRouteMiddleware((to) => {
   // Use cookies for SSR compatibility
-  const { decoded, isValid } = useDecodedAuth();
-  console.log({ decoded: decoded.value, isValid: isValid.value });
+  const { isValid } = useDecodedAuth();
+  // console.log({ decoded: decoded.value, isValid: isValid.value });
 
   // Allow all users to access the home page
   if (to.path === "/") {
@@ -13,7 +13,6 @@ export default defineNuxtRouteMiddleware((to) => {
 
   // If user is not authenticated and trying to access protected routes
   if (!isValid.value && !to.path.startsWith("/auth/")) {
-    console.log("HEY");
     return navigateTo("/auth/login");
   }
 

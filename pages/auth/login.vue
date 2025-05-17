@@ -65,36 +65,39 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
-import { useRouter } from "vue-router";
-import { loginApi } from "../../composables/useCustomFetch";
-import { useCookie } from "#app";
+import { type User } from "~/types";
+
+const { $api } = useNuxtApp();
 
 const email = ref("");
 const password = ref("");
-const router = useRouter();
+
 const loading = ref(false);
 const errorMsg = ref("");
 
 const { login } = useDecodedAuth();
+
 async function handleSubmit() {
   loading.value = true;
   errorMsg.value = "";
   try {
-    const data = await loginApi(email.value, password.value);
-    console.log(data);
+    const data = await $api<{ access_token: string; user: User }>(
+      "/auth/login",
+      {
+        method: "POST",
+        body: { email: email.value, password: password.value },
+      }
+    );
 
     if (data?.access_token) {
       login({
         access_token: data.access_token,
-        email: email.value,
         account: "manager",
       });
-      router.push("/dashboard");
     } else {
       errorMsg.value = "Invalid response from server.";
     }
-  } catch (err) {
+  } catch (err: any) {
     errorMsg.value = err?.message || "Login failed.";
   } finally {
     loading.value = false;

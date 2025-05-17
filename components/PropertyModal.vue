@@ -279,6 +279,24 @@
             </PropertyModalSectionWrapper>
 
             <!-- Availability Checkbox -->
+          </div>
+
+          <div
+            class="px-4 sm:px-6 flex flex-row-reverse sticky bottom-0 gap-2 py-5 border-t border-gray-200 justify-between"
+          >
+            <div class="sm:flex sm:flex-row-reverse gap-2">
+              <UiButton type="submit" size="sm" variant="primary">
+                {{ property ? "Save Changes" : "Add Property" }}
+              </UiButton>
+              <UiButton
+                type="button"
+                @click="closeModal"
+                variant="secondary"
+                size="sm"
+              >
+                Cancel
+              </UiButton>
+            </div>
             <div class="flex items-center">
               <UiToggle v-model="form.available" />
               <label
@@ -290,22 +308,6 @@
               </label>
             </div>
           </div>
-
-          <div
-            class="px-4 sm:px-6 sm:flex sm:flex-row-reverse sticky bottom-0 gap-2 py-5 border-t border-gray-200"
-          >
-            <UiButton type="submit" size="sm" variant="primary">
-              {{ property ? "Save Changes" : "Add Property" }}
-            </UiButton>
-            <UiButton
-              type="button"
-              @click="closeModal"
-              variant="secondary"
-              size="sm"
-            >
-              Cancel
-            </UiButton>
-          </div>
         </form>
       </div>
     </div>
@@ -313,30 +315,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch, computed } from "vue";
-import { useCustomFetch } from "../composables/useCustomFetch";
 import UiToggle from "./ui/UiToggle.vue";
-
-interface Feature {
-  key: string;
-  value: string;
-}
-interface Property {
-  id: number;
-  title: string;
-  description: string;
-  price: number;
-  images: string[];
-  available: boolean;
-  street: string;
-  city: string;
-  state: string;
-  zipCode: string;
-  rooms?: number;
-  bathrooms?: number;
-  toilets?: number;
-  features?: Feature[];
-}
+import type { Property, Feature } from "~/types";
 
 const props = defineProps<{
   show: boolean;
@@ -347,6 +327,8 @@ const emit = defineEmits<{
   (e: "update:show", value: boolean): void;
   (e: "submit", property: Omit<Property, "id">): void;
 }>();
+
+const { $api } = useNuxtApp();
 
 const autoCalculateRent = ref(true);
 
@@ -511,12 +493,11 @@ async function handleSubmit() {
       }
     });
     // Auth handled by useCustomFetch
-    const data = await useCustomFetch("properties", {
+    const data = await $api<Property>("/properties", {
       method: "POST",
       body: formData,
-      headers: {}, // Let useCustomFetch set Content-Type for FormData
     });
-    emit("submit", data);
+    navigateTo("/property/" + data.id);
     closeModal();
   } catch (err) {
     alert(

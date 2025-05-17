@@ -82,14 +82,14 @@
         </div> -->
 
         <div class="text-center">
-          <Button
+          <UiButton
             type="submit"
             variant="primary"
             size="md"
             class="w-full flex justify-center"
           >
             Sign up
-          </Button>
+          </UiButton>
         </div>
       </form>
 
@@ -107,11 +107,10 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
-import { useRouter } from "vue-router";
-import { registerApi } from "../../composables/useCustomFetch";
-import { useCookie } from "#app";
+import type { User } from "~/types";
 
+const { $api } = useNuxtApp();
+const { login } = useDecodedAuth();
 const name = ref("");
 const email = ref("");
 const password = ref("");
@@ -123,18 +122,27 @@ async function handleSubmit() {
   loading.value = true;
   errorMsg.value = "";
   try {
-    const data = await registerApi(name.value, email.value, password.value);
-    if (data && data.token) {
-      const accessToken = useCookie("access_token");
-      accessToken.value = JSON.stringify({
-        access_token: data.token,
-        email: email.value,
+    const data = await $api<{ access_token: string; user: User }>(
+      "/auth/register",
+      {
+        method: "POST",
+        body: {
+          name: name.value,
+          email: email.value,
+          password: password.value,
+        },
+      }
+    );
+
+    if (data && data.access_token) {
+      login({
+        access_token: data.access_token,
+        account: "manager",
       });
-      router.push("/dashboard");
     } else {
       errorMsg.value = "Invalid response from server.";
     }
-  } catch (err) {
+  } catch (err: any) {
     errorMsg.value = err?.message || "Registration failed.";
   } finally {
     loading.value = false;

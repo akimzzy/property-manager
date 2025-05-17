@@ -106,12 +106,6 @@ interface MaintenanceRequest {
   updatedAt: string;
 }
 
-interface Props {
-  openApplicationModal: (propertyId: number) => void;
-}
-
-defineProps<Props>();
-
 const route = useRoute();
 const router = useRouter();
 

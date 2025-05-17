@@ -4,10 +4,11 @@
       'bg-green-50 text-green-800': status === 'available',
       'bg-red-50 text-red-800': status === 'rented',
       'bg-yellow-50 text-yellow-800': status === 'pending',
+      'bg-black text-white': status === 'draft',
       'bg-blue-50 text-blue-800': status === 'in_progress',
       'bg-gray-50 text-gray-800': !status,
     }"
-    class="px-3 py-1 text-xs font-medium rounded-full"
+    class="px-3 py-1 text-xs rounded-lg"
   >
     {{ displayText || formatStatus(status) }}
   </span>
@@ -15,7 +16,7 @@
 
 <script setup lang="ts">
 interface Props {
-  status: "available" | "rented" | "pending" | "in_progress" | string;
+  status: "available" | "rented" | "pending" | "in_progress" | "draft" | string;
   displayText?: string;
 }
 

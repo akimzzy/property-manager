@@ -427,9 +427,5 @@ export const mockProperties: Property[] = [
     toilets: 1,
     createdAt: "2023-10-05T11:00:00Z",
     updatedAt: "2024-05-10T17:00:00Z",
-    createdAt: "2023-06-10T09:30:00Z",
-    updatedAt: "2024-05-06T09:00:00Z",
-    createdAt: "2023-04-25T08:15:00Z",
-    updatedAt: "2024-05-04T18:00:00Z",
   },
 ];

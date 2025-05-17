@@ -10,7 +10,7 @@
       size === 'sm'
         ? 'px-4 py-2 text-xs'
         : size === 'md'
-        ? 'px-5 py-2.5 text-xs'
+        ? 'px-3 py-2.5 text-xs'
         : 'px-6 py-3 text-sm',
       className,
     ]"

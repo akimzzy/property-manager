@@ -19,7 +19,7 @@
 
 <script setup lang="ts">
 import { ref, provide } from "vue";
-import { type Property } from "./data/mockProperties";
+import type { Property } from "./types";
 
 const showPropertyModal = ref(false);
 const selectedProperty = ref<Property | undefined>(undefined);
@@ -44,21 +44,14 @@ provide("openPropertyModal", openPropertyModal);
 provide("openApplicationModal", openApplicationModal);
 
 const handlePropertySubmit = (propertyData: Omit<Property, "id">) => {
+  console.log("Property submitted:", propertyData);
   if (selectedProperty.value) {
     // Update existing property
-    const event = new CustomEvent("property-updated", {
-      detail: { ...propertyData, id: selectedProperty.value.id },
-    });
-    window.dispatchEvent(event);
   } else {
     // Add new property
-    const event = new CustomEvent("property-added", {
-      detail: propertyData,
-    });
-    window.dispatchEvent(event);
   }
-  showPropertyModal.value = false;
-  selectedProperty.value = undefined;
+  // showPropertyModal.value = false;
+  // selectedProperty.value = undefined;
 };
 
 const handleApplicationSubmit = (applicationData: any) => {
