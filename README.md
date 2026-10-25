@@ -1,96 +1,58 @@
 # Property Manager
 
-A modern property management application built with Nuxt 3 and Vue.js. This app streamlines property listings, tenant management, maintenance requests, and more for landlords, property managers, and tenants.
+A Nuxt 3 property management application for landlords, property managers, and tenants. It brings property listings, tenant applications, maintenance requests, and role-based dashboard views into one responsive interface.
 
 ## Features
 
-- Property listing and details view
-- Tenant management and application tracking
-- Maintenance request submission and tracking
-- Comment sections for communication
-- Dashboard views for managers and tenants
-- User authentication (login/register)
-- Responsive UI with reusable components
+- Browse property listings and details
+- Track tenants and applications
+- Submit and follow maintenance requests
+- Communicate through comments
+- Use manager and tenant dashboard views
+- Sign in and register
 
-## Tech Stack
+## Stack
 
-- [Nuxt 3](https://nuxt.com/) (Vue 3 framework)
-- TypeScript
-- Composition API
-- CSS (custom styles in `/assets/css/main.css`)
+Nuxt 3, Vue 3, TypeScript, and the Vue Composition API.
 
-## Getting Started
+## Run locally
 
-### Prerequisites
+### Requirements
 
-- Node.js (v16+ recommended)
-- npm, yarn, pnpm, or bun
+- Node.js version supported by Nuxt 3
+- Yarn 1.22.22 (the repository's package manager)
 
-### Installation
+### Install dependencies
 
-Clone the repository and install dependencies:
-
-```bash
-# Clone the repo
-https://github.com/your-username/property-manager.git
+```sh
+git clone https://github.com/akimzzy/property-manager.git
 cd property-manager
-
-# Install dependencies (choose one)
-npm install
-yarn install
-pnpm install
-bun install
+yarn install --frozen-lockfile
 ```
 
-### Development
+### Start the development server
 
-Start the development server at [http://localhost:3000](http://localhost:3000):
-
-```bash
-npm run dev
+```sh
 yarn dev
-pnpm dev
-bun run dev
 ```
 
-### Production
+Open [http://localhost:3000](http://localhost:3000).
 
-Build for production:
+### Build and preview
 
-```bash
-npm run build
+```sh
 yarn build
-pnpm build
-bun run build
-```
-
-Preview the production build locally:
-
-```bash
-npm run preview
 yarn preview
-pnpm preview
-bun run preview
 ```
 
-## Project Structure
+## Repository layout
 
-- `pages/` — Main application pages (dashboard, properties, tenants, etc.)
-- `components/` — Reusable Vue components (modals, cards, UI elements)
-- `assets/css/` — Global styles
-- `data/` — Mock data for development
-- `layouts/` — Application layouts
-- `middleware/` — Route middleware (e.g., authentication)
+- `pages/` — application routes
+- `components/` — reusable interface components
+- `assets/css/` — global styles
+- `data/` — development data
+- `layouts/` — page layouts
+- `middleware/` — route middleware
 - `nuxt.config.ts` — Nuxt configuration
 
-## Contributing
-
-Contributions are welcome! Please fork the repo and submit a pull request. For major changes, open an issue first to discuss what you would like to change.
-
-## License
-
-[MIT](LICENSE)
-
----
-
-For more details, see the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction).
+For framework guidance, see the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction).
